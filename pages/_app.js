@@ -8,10 +8,23 @@ function MyApp({ Component, pageProps }) {
   const [loggedIn, setLoggedIn] = useState(false);
   const login = () => setLoggedIn(true);
   const logout = () => setLoggedIn(false);
+  const [user, setUser] = useState({
+    fName: '',
+    lName: '',
+    email: '',
+    bio: '',
+  });
+
+  const updateUser = (payload) => {
+    setUser({ ...user, ...payload });
+  };
 
   return (
     <>
-      <userContext.Provider value={{ loggedIn, login, logout }}>
+      <userContext.Provider value={{
+        loggedIn, login, logout, user, updateUser,
+      }}
+      >
         <Layout>
           <Component {...pageProps} />
         </Layout>

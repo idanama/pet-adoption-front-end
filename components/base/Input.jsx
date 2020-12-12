@@ -18,24 +18,44 @@ export default function Input({
       >
         {name}
       </div>
-      <input
-        required={required}
-        type={type}
-        name={name}
-        id={name}
-        value={value}
-        onFocus={() => {
-          setFocus(true);
-        }}
-        onBlur={() => {
-          setFocus(false);
-        }}
-        onChange={(e) => {
-          onChange(e.target.value);
-        }}
-        min={0}
-        className="border px-3 pt-5 pb-2 w-full rounded-md focus:border-black"
-      />
+      {type !== 'textarea' && (
+        <input
+          required={required}
+          type={type}
+          name={name}
+          id={name}
+          value={value}
+          onFocus={() => {
+            setFocus(true);
+          }}
+          onBlur={() => {
+            setFocus(false);
+          }}
+          onChange={(e) => {
+            onChange(e.target.value);
+          }}
+          min={0}
+          className="border px-3 pt-5 pb-2 w-full rounded-md focus:border-black"
+        />
+      )}
+      {type === 'textarea' && (
+        <textarea
+          className="border px-3 pt-5 pb-2 w-full rounded-md focus:border-black"
+          name={name}
+          id={name}
+          cols="30"
+          rows="3"
+          onFocus={() => {
+            setFocus(true);
+          }}
+          onBlur={() => {
+            setFocus(false);
+          }}
+          onChange={(e) => {
+            onChange(e.target.value);
+          }}
+        />
+      )}
       {error && <div className="ml-3 mt-1 text-red-700">{error}</div>}
     </label>
   );

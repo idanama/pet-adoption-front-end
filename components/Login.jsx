@@ -27,7 +27,15 @@ export default function Login({ close }) {
           onChange={setPassword}
           required
         />
-        <Button submit primary xl onClick={() => login()}>
+        <Button
+          submit
+          primary
+          xl
+          onClick={() => {
+            close();
+            login();
+          }}
+        >
           Login
         </Button>
       </form>
