@@ -32,6 +32,7 @@ export default function Register({ close }) {
           name="Password"
           value={password}
           onChange={setPassword}
+          required
         />
         <Input
           type="password"
@@ -39,6 +40,7 @@ export default function Register({ close }) {
           value={passwordConfirm}
           onChange={setPasswordConfirm}
           error={error.passwordConfirm}
+          required
         />
 
         <Input
@@ -46,20 +48,23 @@ export default function Register({ close }) {
           name="First Name"
           value={firstName}
           onChange={setFirstName}
+          required
         />
         <Input
           type="text"
           name="Last Name"
           value={lastName}
           onChange={setLastName}
+          required
         />
         <Input
           type="number"
           name="Phone Number"
           value={phoneNumber}
           onChange={setPhoneNumber}
+          required
         />
-        <Button type="submit" primary xl onClick={close}>
+        <Button submit primary xl>
           Register
         </Button>
       </form>

@@ -10,14 +10,21 @@ export default function Login({ close }) {
   return (
     <Modal title="Login" close={close}>
       <form className="flex flex-col">
-        <Input type="email" name="Email" value={email} onChange={setEmail} />
+        <Input
+          type="email"
+          name="Email"
+          value={email}
+          onChange={setEmail}
+          required
+        />
         <Input
           type="password"
           name="Password"
           value={password}
           onChange={setPassword}
+          required
         />
-        <Button type="submit" primary xl onClick={close}>
+        <Button submit primary xl>
           {' '}
           Login
         </Button>

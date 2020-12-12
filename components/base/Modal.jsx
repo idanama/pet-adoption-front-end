@@ -8,7 +8,7 @@ export default function Modal({ children, title, close }) {
         className="absolute w-96 bg-white rounded-lg"
         onClick={(e) => e.stopPropagation()}
       >
-        <div className="p-4 relative">
+        <div className="p-4 relative border-b">
           <div
             className="inline-block"
             onClick={close}
@@ -23,7 +23,7 @@ export default function Modal({ children, title, close }) {
           </h2>
           <div />
         </div>
-        <div className="p-4">{children}</div>
+        <div className="px-4 py-6">{children}</div>
       </div>
     </div>
   );

@@ -1,6 +1,13 @@
 import { useState } from 'react';
 
-export default function Input({ type, name, value, error, onChange }) {
+export default function Input({
+  type,
+  name,
+  value,
+  error,
+  onChange,
+  required,
+}) {
   const [focus, setFocus] = useState(false);
   return (
     <label htmlFor={name} className="relative mb-4">
@@ -12,6 +19,7 @@ export default function Input({ type, name, value, error, onChange }) {
         {name}
       </div>
       <input
+        required={required}
         type={type}
         name={name}
         id={name}

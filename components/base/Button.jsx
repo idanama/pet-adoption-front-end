@@ -2,7 +2,6 @@ import { Children } from 'react';
 
 export default function Button({
   children,
-  action,
   submit,
   primary,
   white,
