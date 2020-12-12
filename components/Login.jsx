@@ -1,11 +1,14 @@
-import { useState } from 'react';
+import { useContext, useState } from 'react';
 import Modal from './base/Modal';
 import Input from './base/Input';
 import Button from './base/Button';
+import userContext from '../context/userContext';
 
 export default function Login({ close }) {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
+
+  const { login } = useContext(userContext);
 
   return (
     <Modal title="Login" close={close}>
@@ -24,8 +27,7 @@ export default function Login({ close }) {
           onChange={setPassword}
           required
         />
-        <Button submit primary xl>
-          {' '}
+        <Button submit primary xl onClick={() => login()}>
           Login
         </Button>
       </form>

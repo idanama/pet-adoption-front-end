@@ -1,7 +1,8 @@
-import { useEffect, useState } from 'react';
+import { useContext, useEffect, useState } from 'react';
 import Modal from './base/Modal';
 import Input from './base/Input';
 import Button from './base/Button';
+import userContext from '../context/userContext';
 
 export default function Register({ close }) {
   const [email, setEmail] = useState('');
@@ -11,6 +12,8 @@ export default function Register({ close }) {
   const [lastName, setLastName] = useState('');
   const [phoneNumber, setPhoneNumber] = useState('');
   const [error, setError] = useState('');
+
+  const { login } = useContext(userContext);
 
   useEffect(() => {
     if (passwordConfirm.length > 0 && password !== passwordConfirm) {
@@ -64,7 +67,7 @@ export default function Register({ close }) {
           onChange={setPhoneNumber}
           required
         />
-        <Button submit primary xl>
+        <Button submit primary xl onClick={() => login()}>
           Register
         </Button>
       </form>

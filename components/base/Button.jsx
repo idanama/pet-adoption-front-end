@@ -1,4 +1,5 @@
 import { Children } from 'react';
+import Link from 'next/link';
 
 export default function Button({
   children,
@@ -10,16 +11,9 @@ export default function Button({
   xl,
   onClick,
   className,
+  link,
 }) {
-  return (
-    <button
-      onClick={(e) => {
-        if (onClick) {
-          e.preventDefault();
-          onClick();
-        }
-      }}
-      className={`rounded px-3
+  const buttonClass = `rounded px-3
       ${!white && !transparent ? 'bg-gray-500 text-white' : ''}
       ${primary ? 'bg-green-500 text-white' : ''}
       ${white ? 'bg-white text-black' : ''}
@@ -27,10 +21,31 @@ export default function Button({
       ${xl ? 'py-3' : 'py-1'}
       ${fullWidth ? 'w-full' : ''}
       ${className || ''}
-      `}
-      type={submit ? 'submit' : 'button'}
-    >
-      {children}
-    </button>
+      `;
+
+  return (
+    <>
+      {!link && (
+        <button
+          onClick={(e) => {
+            if (onClick) {
+              e.preventDefault();
+              onClick();
+            }
+          }}
+          className={buttonClass}
+          type={submit ? 'submit' : 'button'}
+        >
+          {children}
+        </button>
+      )}
+      {link && (
+        <Link href={link}>
+          <button className={buttonClass} type={submit ? 'submit' : 'button'}>
+            {children}
+          </button>
+        </Link>
+      )}
+    </>
   );
 }

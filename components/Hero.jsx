@@ -7,7 +7,9 @@ export default function Hero({ img, title, text, action, to }) {
         <div className="container mx-auto text-white">
           <h1 className="text-9xl">{title}</h1>
           <h2 className="text-5xl mb-3">{text}</h2>
-          <Button white>{action}</Button>
+          <Button link={to} white>
+            {action}
+          </Button>
         </div>
       </div>
       <img src={img} alt={text} className="min-h-96 object-cover w-full" />

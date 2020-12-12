@@ -1,6 +1,6 @@
 export default function SearchBar() {
   return (
-    <div className="h-11 bg-white rounded-full border border-gray-200 text-sm pl-3 pr-1 py-1 min-w-full flex justify-between items-center hover:shadow-md">
+    <div className="h-11 bg-white rounded-full border border-gray-200 text-sm pl-3 pr-1 py-1 min-w-full flex justify-between items-center hover:shadow-md transition duration-300 ease-in-out">
       <input
         className="py-1.5 ml-3 placeholder-black"
         type="text"
