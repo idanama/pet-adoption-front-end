@@ -1,5 +1,7 @@
 import { useContext, useState } from 'react';
 import Link from 'next/link';
+import { useRouter } from 'next/router';
+
 import Button from './base/Button';
 import Logo from './base/Logo';
 import Login from './Login';
@@ -14,12 +16,22 @@ export default function NavBar() {
 
   const { loggedIn, logout } = useContext(userContext);
 
+  const router = useRouter();
+  const homePath = router.pathname === '/';
+  const shading = homePath
+    ? 'bg-gradient-to-b from-black-0.4 to-transparent'
+    : 'bg-white';
+
   return (
     <>
-      <div className="bg-white fixed top-0 left-0 w-full">
+      <div className={`${shading} fixed top-0 left-0 w-full`}>
         <nav className="container relative mx-auto p-4 flex justify-between items-center">
           <div className="justify-self-start">
-            <Logo />
+            <Link href="/">
+              <a className={homePath ? 'text-white' : ''}>
+                <Logo />
+              </a>
+            </Link>
           </div>
           <div className="justify-self-center absolute left-1/2 transform -translate-x-1/2 w-64 md:w-72 xl:w-96">
             <SearchBar />
