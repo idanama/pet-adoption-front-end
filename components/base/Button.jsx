@@ -12,12 +12,14 @@ export default function Button({
   onClick,
   className,
   link,
+  text,
 }) {
   const buttonClass = `rounded px-3
-      ${!white && !transparent ? 'bg-gray-500 text-white' : ''}
-      ${primary ? 'bg-green-500 text-white' : ''}
-      ${white ? 'bg-white text-black' : ''}
+      ${!white && !transparent && !text ? 'bg-gray-500 text-white' : ''}
+      ${primary ? 'bg-green-500 text-white font-semibold' : ''}
+      ${white ? 'bg-white text-black border' : ''}
       ${transparent ? 'bg-transparent text-current' : ''}
+      ${text ? 'bg-transparent text-left underline' : ''}
       ${xl ? 'py-3' : 'py-1'}
       ${fullWidth ? 'w-full' : ''}
       ${className || ''}
