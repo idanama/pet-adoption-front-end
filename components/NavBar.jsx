@@ -19,12 +19,12 @@ export default function NavBar() {
   const router = useRouter();
   const homePath = router.pathname === '/';
   const shading = homePath
-    ? 'bg-gradient-to-b from-black-0.4 to-transparent'
-    : 'bg-white';
+    ? 'bg-gradient-to-b from-black-0.4 to-transparent fixed'
+    : 'bg-white shadow-lg absolute';
 
   return (
     <>
-      <div className={`${shading} fixed top-0 left-0 w-full`}>
+      <div className={`${shading}  top-0 left-0 w-full`}>
         <nav className="container relative mx-auto p-4 flex justify-between items-center">
           <div className="justify-self-start">
             <Link href="/">
