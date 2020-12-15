@@ -13,6 +13,8 @@ const loggedIn = createContext({
   login: () => { },
   logout: () => { },
   updateUser: () => { },
+  pets: {},
+  getPet: () => { },
 });
 
 export default loggedIn;
