@@ -2,7 +2,7 @@
 @tailwind components;
 @tailwind utilities;
 
-@import url('https://fonts.googleapis.com/css2?family=Assistant&family=Secular+One&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Assistant:wght@400;600&family=Secular+One&display=swap');
 
 @layer base {
   /* secular-one-regular - latin_hebrew */
@@ -29,6 +29,18 @@
         url('/fonts/assistant-v6-latin_hebrew-regular.woff') format('woff');
   }
 
+  /* assistant-600 - latin */
+  @font-face {
+    font-family: 'Assistant';
+    font-style: normal;
+    font-weight: 600;
+    src: local(''),
+      /* Chrome 26+, Opera 23+, Firefox 39+ */
+        url('/fonts/assistant-v6-latin_hebrew-600.woff2') format('woff2'),
+      /* Chrome 6+, Firefox 3.6+, IE 9+, Safari 5.1+ */
+        url('/fonts/assistant-v6-latin_hebrew-600.woff') format('woff');
+  }
+
   h1,
   h2 {
     @apply font-display;
@@ -38,6 +50,9 @@
 @layer utilities {
   .max-h-80v {
     max-height: 80vh;
+  }
+  .max-h-60v {
+    max-height: 60vh;
   }
   .h-80v {
     height: 80vh;
