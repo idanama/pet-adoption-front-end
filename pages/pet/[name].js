@@ -23,7 +23,7 @@ import userContext from '../../context/userContext';
 export default function PetPage() {
   const { name } = useRouter().query;
 
-  const { user, pets } = useContext(userContext);
+  const { user } = useContext(userContext);
 
   const [pet, setPet] = useState({
     Name: 'Loading', pictures: [''], gender: '', dateOfBirth: new Date(), type: '',
@@ -37,7 +37,8 @@ export default function PetPage() {
   const fetchPetByName = async (petName) => {
     setLoading(true);
     const petResponse = await api.getPetByName(petName);
-    const userOwned = pets[petResponse.id] !== undefined;
+    // const userOwned = pets[petResponse.id] !== undefined;
+    const userOwned = false;
     setPet({ ...petResponse, userOwned });
     setPetTable([
       { title: 'Gender', value: petResponse.gender, icon: petResponse.gender === 'Male' ? <RiMenLine /> : <RiWomenLine /> },
@@ -67,7 +68,7 @@ export default function PetPage() {
   }, [name]);
 
   return (
-    <div className="container mx-auto max-w-screen-lg px-3 lg:px-0">
+    <div className="container mx-auto max-w-screen-lg px-7 lg:px-1">
       <img src={pet.pictures && pet.pictures[0]} alt={pet.name} className="object-cover h-full w-full object-center max-h-60v rounded-2xl" />
       <div className="flex">
         <div className="w-2/3 m-4">
@@ -92,7 +93,7 @@ export default function PetPage() {
           </div>
           <div className="text-2xl">
             {!loading && (
-              `${pet.gender} ${pet.type.toLowerCase()}, ${formatDistanceToNow(new Date(pet.dateOfBirth.toString()))} old.`
+              `${pet.gender} ${pet.species.toLowerCase()}, ${formatDistanceToNow(new Date(pet.dateOfBirth.toString()))} old.`
             )}
           </div>
           <div className="grid grid-cols-1 md:grid-cols-2 mt-6 border-t border-b py-3">
