@@ -31,9 +31,9 @@ export default function Login({ close }) {
           submit
           primary
           xl
-          onClick={() => {
+          onClick={async () => {
+            await login(email, password);
             close();
-            login();
           }}
         >
           Login

@@ -1,33 +1,58 @@
 /* eslint-disable react/jsx-props-no-spreading */
 import '../styles/globals.css';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
+import Cookies from 'js-cookie';
+
 import Layout from '../components/Layout';
 import userContext from '../context/userContext';
+import api from '../utils/api';
 
 function MyApp({ Component, pageProps }) {
-  const [loggedIn, setLoggedIn] = useState(false);
-  const [pets, setPets] = useState({});
-  const login = () => setLoggedIn(true);
-  const logout = () => setLoggedIn(false);
-  const [user, setUser] = useState({
-    fName: '',
-    lName: '',
-    email: '',
-    bio: '',
-  });
+  const [userState, setUser] = useState({});
 
-  const updateUser = (payload) => {
-    setUser({ ...user, ...payload });
+  const signup = async (userInfo) => {
+    try {
+      const { token, user } = await api.signup(userInfo);
+      Cookies.set('jwt', token, { expires: 30 });
+      Cookies.set('uid', user._id, { expires: 30 });
+      setUser(user);
+    } catch (e) {
+      console.error(e);
+    }
   };
 
-  const getPet = (petId, status) => {
-    setPets({ ...pets, [petId]: status });
+  const login = async (email, password) => {
+    try {
+      const { token, user } = await api.login(email, password);
+      Cookies.set('jwt', token, { expires: 30 });
+      Cookies.set('uid', user._id, { expires: 30 });
+      setUser(user);
+    } catch (e) {
+      console.error(e);
+    }
   };
+  const logout = () => {
+    setUser({});
+    Cookies.remove('jwt');
+    Cookies.remove('uid');
+  };
+
+  const rehydrateUser = async () => {
+    const uid = Cookies.get('uid');
+    if (uid) {
+      const userData = await api.getUser(uid);
+      setUser(userData);
+    }
+  };
+
+  useEffect(() => {
+    rehydrateUser();
+  }, []);
 
   return (
     <>
       <userContext.Provider value={{
-        loggedIn, login, logout, user, updateUser, pets, getPet,
+        loggedIn: '_id' in userState, login, logout, signup, user: userState,
       }}
       >
         <Layout>

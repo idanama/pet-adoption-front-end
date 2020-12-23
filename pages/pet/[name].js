@@ -16,13 +16,14 @@ import { IconContext } from 'react-icons';
 import { formatDistanceToNow } from 'date-fns';
 import Button from '../../components/base/Button';
 import Modal from '../../components/base/Modal';
+import api from '../../utils/api';
 
 import userContext from '../../context/userContext';
 
 export default function PetPage() {
   const { name } = useRouter().query;
 
-  const { pets, getPet } = useContext(userContext);
+  const { user, pets } = useContext(userContext);
 
   const [pet, setPet] = useState({
     Name: 'Loading', pictures: [''], gender: '', dateOfBirth: new Date(), type: '',
@@ -33,9 +34,9 @@ export default function PetPage() {
 
   const [loading, setLoading] = useState(true);
 
-  const fetchPetByName = async (param) => {
+  const fetchPetByName = async (petName) => {
     setLoading(true);
-    const petResponse = await (await fetch(`/api/pet/name/${param}`)).json();
+    const petResponse = await api.getPetByName(petName);
     const userOwned = pets[petResponse.id] !== undefined;
     setPet({ ...petResponse, userOwned });
     setPetTable([
@@ -51,9 +52,12 @@ export default function PetPage() {
     setLoading(false);
   };
 
-  const changePetStatus = (status) => {
-    getPet(pet.id, status);
-    setPet({ ...pet, userOwned: !!status });
+  const adoptPet = async () => {
+    await fetch('/api/pet/adopt', { method: 'POST', body: await JSON.stringify({ petId: pet.id, userId: user.id }) });
+  };
+
+  const changePetStatus = () => {
+    adoptPet();
   };
 
   useEffect(() => {
@@ -123,7 +127,7 @@ export default function PetPage() {
                   <div className="text-xl">
                     {`Want to have ${pet.name}?`}
                   </div>
-                  <Button xl primary onClick={() => changePetStatus('adopt')}>Adopt</Button>
+                  <Button xl primary onClick={() => adoptPet('adopt')}>Adopt</Button>
                   <Button white onClick={() => changePetStatus('foster')}>Foster</Button>
                 </>
                 )}

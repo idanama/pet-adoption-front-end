@@ -1,12 +1,13 @@
 import Head from 'next/head';
 import { useState, useEffect } from 'react';
 import Hero from '../components/Hero';
+import api from '../utils/api';
 
 export default function Home() {
   const [heroPet, setHeroPet] = useState({ Name: 'SPCA', tagline: 'Society for Prevention of Cruelty to Animals in Israel', pictures: [''] });
 
   const fetchRandomPet = async () => {
-    const petResponse = await (await fetch('/api/pet/random')).json();
+    const petResponse = await api.getRandomPet();
     setHeroPet(petResponse);
   };
 
