@@ -2,12 +2,14 @@
 import '../styles/globals.css';
 import { useEffect, useState } from 'react';
 import Cookies from 'js-cookie';
-
+import { useRouter } from 'next/router';
 import Layout from '../components/Layout';
 import userContext from '../context/userContext';
 import api from '../utils/api';
 
 function MyApp({ Component, pageProps }) {
+  const router = useRouter();
+
   const [userState, setUser] = useState({});
 
   const signup = async (userInfo) => {
@@ -35,6 +37,7 @@ function MyApp({ Component, pageProps }) {
     setUser({});
     Cookies.remove('jwt');
     Cookies.remove('uid');
+    router.push('/');
   };
 
   const rehydrateUser = async () => {
