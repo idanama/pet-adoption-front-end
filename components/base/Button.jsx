@@ -15,7 +15,7 @@ export default function Button({
   text,
 }) {
   const buttonClass = `rounded px-3
-      ${!white && !transparent && !text ? 'bg-gray-500 text-white' : ''}
+      ${!white && !transparent && !text ? 'bg-gray-400 text-white' : ''}
       ${primary ? 'bg-green-500 text-white font-semibold' : ''}
       ${white ? 'bg-white text-black border' : ''}
       ${transparent ? 'bg-transparent text-current' : ''}
