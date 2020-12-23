@@ -14,7 +14,7 @@ export default function NavBar() {
   const [login, setLogin] = useState(false);
   const [register, setRegister] = useState(false);
 
-  const { loggedIn, logout } = useContext(userContext);
+  const { loggedIn, logout, user } = useContext(userContext);
 
   const router = useRouter();
   const homePath = router.pathname === '/';
@@ -28,7 +28,7 @@ export default function NavBar() {
         <nav className="container relative mx-auto p-4 flex justify-between items-center">
           <div className="justify-self-start">
             <Link href="/">
-              <a className={homePath ? 'text-white' : ''}>
+              <a href="/" className={homePath ? 'text-white' : ''}>
                 <Logo />
               </a>
             </Link>
@@ -46,7 +46,7 @@ export default function NavBar() {
               <img src="/icons/user.svg" alt="User" className="w-5 h-5" />
             </button>
             {userMenu && (
-              <ul className="bg-white rounded-xl border border-gray-200 p-3 top-0 right-0 transform translate-y-14 hover:shadow-md absolute w-40 transition duration-300">
+              <ul className="bg-white rounded-xl border border-gray-200 top-0 right-0 transform translate-y-14 hover:shadow-md absolute w-40 transition duration-300">
                 {!loggedIn && (
                   <>
                     <li className="border-b p-2 w-full">
@@ -73,7 +73,10 @@ export default function NavBar() {
                 )}
                 {loggedIn && (
                   <>
-                    <li className="border-b p-2 w-full">
+                    <li className="border-b px-5 py-2 w-full text-gray-400">
+                      {`${user.fName} ${user.lName}`}
+                    </li>
+                    <li className="p-2 w-full">
                       <Button
                         link="/profile"
                         transparent
