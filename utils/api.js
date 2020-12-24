@@ -1,5 +1,4 @@
-// const baseUrl = 'https://pet-adoption-back-end.herokuapp.com';
-const baseUrl = 'http://localhost:5000';
+const baseUrl = 'https://pet-adoption-back-end.herokuapp.com';
 
 const fetchJson = async (url, options) => {
   const optionHelper = { ...options };
