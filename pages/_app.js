@@ -35,9 +35,9 @@ function MyApp({ Component, pageProps }) {
   };
   const logout = () => {
     setUser({});
+    router.push('/');
     Cookies.remove('jwt');
     Cookies.remove('uid');
-    router.push('/');
   };
 
   const rehydrateUser = async () => {
