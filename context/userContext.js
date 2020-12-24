@@ -5,6 +5,7 @@ const loggedIn = createContext({
   user: {},
   login: () => { },
   logout: () => { },
+  signup: () => { },
 });
 
 export default loggedIn;
