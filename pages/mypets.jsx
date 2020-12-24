@@ -7,12 +7,10 @@ import userContext from '../context/userContext';
 import PetCard from '../components/PetCard';
 
 export default function MyPets() {
-  const { user, updateUser } = useContext(userContext);
-  const [formUser, updateFormUser] = useState(user);
+  const { user } = useContext(userContext);
 
   const [loading, setLoading] = useState(true);
   const [myPets, setMyPets] = useState({});
-  const [savedPets, setSavedPets] = useState({});
 
   const fetchPetsArray = async (userId) => {
     setLoading(true);
