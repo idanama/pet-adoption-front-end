@@ -10,11 +10,13 @@ const fetchJson = async (url, options) => {
   optionHelper.credentials = 'include';
   const res = await fetch(url, optionHelper);
   if (res.ok) {
-    console.log('ok');
-    return res.json();
+    return { ...await res.json(), ok: true };
   }
-  console.log('not OK');
-  throw new Error(res.body);
+
+  const { error } = await res.json();
+  error.status = res.status;
+  console.error(error);
+  return ({ error, ok: false });
 };
 
 const signup = async (userData) => fetchJson(`${baseUrl}/signup`, { method: 'POST', body: userData });
