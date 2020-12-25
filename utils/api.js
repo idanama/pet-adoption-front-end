@@ -1,4 +1,4 @@
-const baseUrl = 'https://pet-adoption-back-end.herokuapp.com';
+const baseUrl = process.env.VERCEL ? 'https://pet-adoption-back-end.herokuapp.com' : 'http://localhost:5000';
 
 const fetchJson = async (url, options) => {
   const optionHelper = { ...options };
