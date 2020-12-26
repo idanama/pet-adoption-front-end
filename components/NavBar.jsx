@@ -2,7 +2,7 @@ import { useContext, useState } from 'react';
 import Link from 'next/link';
 import { useRouter } from 'next/router';
 
-import { RiMenuLine, RiUserFill, RiUserLine } from 'react-icons/ri';
+import { RiMenuLine, RiUserLine } from 'react-icons/ri';
 import Button from './base/Button';
 import Logo from './base/Logo';
 import Login from './Login';
@@ -39,7 +39,7 @@ export default function NavBar() {
             role="button"
             tabIndex={-1}
             onClick={() => setUserMenu(!userMenu)}
-            onBlur={() => setTimeout(() => setUserMenu(!userMenu), 100)}
+            onBlur={() => setTimeout(() => setUserMenu(false), 100)}
             onKeyUp={() => setUserMenu(!userMenu)}
             className="justify-self-end relative"
           >
