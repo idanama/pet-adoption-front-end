@@ -3,6 +3,7 @@ import Modal from './base/Modal';
 import Input from './base/Input';
 import Button from './base/Button';
 import userContext from '../context/userContext';
+import api from '../utils/api';
 
 export default function Register({ close }) {
   const [email, setEmail] = useState('');
@@ -67,7 +68,20 @@ export default function Register({ close }) {
           onChange={setPhoneNumber}
           required
         />
-        <Button submit primary xl onClick={() => login()}>
+        <Button
+          submit
+          primary
+          xl
+          onClick={() =>
+            api.signup({
+              email,
+              password,
+              firstName,
+              lastName,
+              phoneNumber,
+            })
+          }
+        >
           Register
         </Button>
       </form>
