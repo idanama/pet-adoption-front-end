@@ -1,3 +1,5 @@
+import { RiCloseLine } from 'react-icons/ri';
+
 export default function Modal({ children, title, close }) {
   return (
     <div
@@ -16,7 +18,7 @@ export default function Modal({ children, title, close }) {
             role="button"
             tabIndex={0}
           >
-            <img src="\icons\x.svg" alt="close" />
+            <RiCloseLine className="text-2xl" />
           </div>
           <h2 className="absolute left-1/2 top-4 transform -translate-x-1/2">
             {title}

@@ -2,6 +2,7 @@ import { useContext, useState } from 'react';
 import Link from 'next/link';
 import { useRouter } from 'next/router';
 
+import { RiMenuLine, RiUserFill, RiUserLine } from 'react-icons/ri';
 import Button from './base/Button';
 import Logo from './base/Logo';
 import Login from './Login';
@@ -33,18 +34,18 @@ export default function NavBar() {
               </a>
             </Link>
           </div>
-          <div className="justify-self-center absolute left-1/2 transform -translate-x-1/2 w-64 md:w-72 xl:w-96">
-            <SearchBar />
-          </div>
-          <button
-            type="button"
+          <SearchBar />
+          <div
+            role="button"
+            tabIndex={-1}
             onClick={() => setUserMenu(!userMenu)}
             onBlur={() => setTimeout(() => setUserMenu(!userMenu), 100)}
+            onKeyUp={() => setUserMenu(!userMenu)}
             className="justify-self-end relative"
           >
-            <div className="h-11 bg-white rounded-full border border-gray-200 text-sm pl-3 px-2 py-1 min-w-full flex justify-between items-center hover:shadow-md transition duration-300 ease-in-out">
-              <img src="/icons/menu.svg" alt="Menu" className="w-5 h-5 mr-2" />
-              <img src="/icons/user.svg" alt="User" className="w-5 h-5" />
+            <div className="h-11 bg-white rounded-full border border-gray-200 text-xl px-3 py-2 min-w-full grid grid-flow-col gap-1 items-center hover:shadow-md transition duration-300 ease-in-out">
+              <RiMenuLine />
+              <RiUserLine />
             </div>
             {userMenu && (
               <ul className="bg-white rounded-xl border border-gray-200 top-0 right-0 transform translate-y-14 hover:shadow-md absolute w-40 transition duration-300">
@@ -111,7 +112,7 @@ export default function NavBar() {
                 )}
               </ul>
             )}
-          </button>
+          </div>
         </nav>
       </div>
       {login && <Login close={() => setLogin(false)} />}
