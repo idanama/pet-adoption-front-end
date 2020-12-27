@@ -40,19 +40,18 @@ export default function Selection({
         {xl && (
           <div className="font-semibold text-xs tracking-wider">{category}</div>
         )}
-        <div className="text-gray-500">{action}</div>
+        {value === '' && <div className="text-gray-500">{action}</div>}
+        {value !== '' && <div className="capitalize">{value}</div>}
       </div>
-      {open && (
-        <ul
-          className={`${
-            xl
-              ? `${openButtonStyle.xl[xl]} ${openButtonStyle.xl.all}`
-              : openButtonStyle.regular
-          }`}
-        >
-          {children}
-        </ul>
-      )}
+      <ul
+        className={`${
+          xl
+            ? `${openButtonStyle.xl[xl]} ${openButtonStyle.xl.all}`
+            : openButtonStyle.regular
+        } ${open ? '' : 'hidden'}`}
+      >
+        {children}
+      </ul>
     </>
   );
 }
