@@ -14,9 +14,7 @@ export default function PetCard({ pet }) {
           />
         </div>
         <div className="px-3 pt-3 text-gray-400">
-          {`${pet.gender} ${pet.species.toLowerCase()}, ${formatDistanceToNow(
-            new Date(pet.dateOfBirth.toString())
-          )} old.`}
+          {`${pet.gender} ${pet.species.toLowerCase()}, ${pet.age}.`}
         </div>
         <div className="p-3 pb-6 flex justify-between items-center">
           <div className="text-3xl">{pet.name}</div>
