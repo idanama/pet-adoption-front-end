@@ -67,6 +67,21 @@ export default function SearchBar({ updateNavSize }) {
     return 'medium';
   };
 
+  let { animal, relationship } = form;
+  if (relationship === 'any' || !relationship) {
+    relationship = 'adopt or foster';
+  }
+  if (animal === 'any' || !animal) {
+    animal = 'pet';
+  }
+
+  const pushRoute = () => {
+    router.push({
+      pathname: '/search',
+      query: { animal: form.animal, relationship: form.relationship },
+    });
+  };
+
   return (
     <div
       className={`${searchBarPosition.all} ${
@@ -90,10 +105,7 @@ export default function SearchBar({ updateNavSize }) {
         }}
         onSubmit={(e) => {
           e.preventDefault();
-          router.push({
-            pathname: '/search',
-            query: { animal: form.animal, relationship: form.relationship },
-          });
+          pushRoute();
           setActive(false);
         }}
         role="menuitem"
@@ -107,9 +119,7 @@ export default function SearchBar({ updateNavSize }) {
         ref={formRef}
       >
         {searchBarState() === 'small' && formNotEmpty && (
-          <div className="pl-4 capitalize">{`${
-            form.relationship === 'any' ? '' : form.relationship
-          } ${form.animal === 'any' ? '' : `a ${form.animal}`}`}</div>
+          <div className="pl-4 capitalize">{`${animal}s to ${relationship}`}</div>
         )}
         {searchBarState() === 'small' && !formNotEmpty && (
           <div className="pl-4">Start your search</div>
