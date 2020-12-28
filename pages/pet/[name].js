@@ -38,7 +38,7 @@ export default function PetPage() {
 
   const fetchPetByName = async (petName) => {
     setLoading(true);
-    const petResponse = await api.getPetByName(petName);
+    const petResponse = (await api.getPetByName(petName)).res;
     let userOwned = false;
     if (user._id) {
       userOwned = petResponse.owner === user._id;
@@ -61,13 +61,13 @@ export default function PetPage() {
     let petResponse;
     switch (status) {
       case 'adopt':
-        petResponse = await api.adoptPet(user._id, pet._id, 'adopt');
+        petResponse = (await api.adoptPet(user._id, pet._id, 'adopt')).res;
         break;
       case 'foster':
-        petResponse = await api.adoptPet(user._id, pet._id, 'foster');
+        petResponse = (await api.adoptPet(user._id, pet._id, 'foster')).res;
         break;
       case 'return':
-        petResponse = await api.returnPet(user._id, pet._id);
+        petResponse = (await api.returnPet(user._id, pet._id)).res;
         break;
       default:
         break;

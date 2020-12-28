@@ -9,7 +9,7 @@ const fetchJson = async (url, options) => {
   optionHelper.credentials = 'include';
   const res = await fetch(url, optionHelper);
   if (res.ok) {
-    return { ...await res.json(), ok: true };
+    return { res: await res.json(), ok: true };
   }
 
   const { error } = await res.json();
@@ -25,7 +25,7 @@ const addPet = (petData) => fetchJson(`${baseUrl}/pet`, { method: 'POST', body: 
 const getPet = (petId) => fetchJson(`${baseUrl}/pet/${petId}`);
 const getPetByName = (petName) => fetchJson(`${baseUrl}/pet/name/${petName}`);
 const getRandomPet = () => fetchJson(`${baseUrl}/pet/random`);
-const getPets = () => fetchJson(`${baseUrl}/pet`);
+const getPets = (query) => fetchJson(`${baseUrl}/pet${query || ''}`);
 const editPet = (petId, petData) => fetchJson(`${baseUrl}/pet/${petId}`, { method: 'PUT', body: petData });
 const adoptPet = (userId, petId, action) => fetchJson(`${baseUrl}/pet/${petId}/adopt`, { method: 'POST', body: { action, userId } });
 const returnPet = (userId, petId) => fetchJson(`${baseUrl}/pet/${petId}/return`, { method: 'POST', body: { userId } });

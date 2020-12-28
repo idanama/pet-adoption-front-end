@@ -17,12 +17,13 @@ export default function Home() {
   const fetchRandomPet = async () => {
     const pet = await api.getRandomPet();
     if (pet.ok) {
+      const { pictures, name, tagline } = pet.res;
       setHeroPet({
-        img: pet.pictures[0],
-        title: pet.name,
-        text: pet.tagline,
-        action:`Meet ${pet.name}`,
-        to: `/pet/${pet.name}`,
+        img: pictures[0],
+        title: name,
+        text: tagline,
+        action:`Meet ${name}`,
+        to: `/pet/${name}`,
       });
     }
   };

@@ -14,7 +14,7 @@ function MyApp({ Component, pageProps }) {
 
   const signup = async (userInfo) => {
     try {
-      const { token, user } = await api.signup(userInfo);
+      const { token, user } = (await api.signup(userInfo)).res;
       Cookies.set('jwt', token, { expires: 30 });
       Cookies.set('uid', user._id, { expires: 30 });
       setUser(user);
@@ -25,7 +25,7 @@ function MyApp({ Component, pageProps }) {
 
   const login = async (email, password) => {
     try {
-      const { token, user } = await api.login(email, password);
+      const { token, user } = (await api.login(email, password)).res;
       Cookies.set('jwt', token, { expires: 30 });
       Cookies.set('uid', user._id, { expires: 30 });
       setUser(user);
@@ -43,7 +43,7 @@ function MyApp({ Component, pageProps }) {
   const rehydrateUser = async () => {
     const uid = Cookies.get('uid');
     if (uid) {
-      const userData = await api.getUser(uid);
+      const userData = (await api.getUser(uid)).res;
       setUser(userData);
     }
   };

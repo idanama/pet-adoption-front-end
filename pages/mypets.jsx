@@ -14,9 +14,9 @@ export default function MyPets() {
 
   const fetchPetsArray = async (userId) => {
     setLoading(true);
-    const pets = await api.getUserPets(userId);
-    if ('savedPets' in pets) {
-      setMyPets(pets);
+    const { res } = await api.getUserPets(userId);
+    if ('savedPets' in res) {
+      setMyPets(res);
     }
     setLoading(false);
   };
