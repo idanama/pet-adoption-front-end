@@ -1,4 +1,4 @@
-import { useRef, useState } from 'react';
+import { useRef, useState, useEffect } from 'react';
 import {
   RiEmpathizeLine,
   RiHandHeartLine,
@@ -9,16 +9,23 @@ import Selection from './base/Selection';
 import { useRouter } from 'next/router';
 
 export default function SearchBar() {
+  const router = useRouter();
+
   const [active, setActive] = useState(true);
   const [selection, setSelection] = useState(null);
   const [form, setForm] = useState({ animal: '', relationship: '' });
   const formRef = useRef(null);
 
-  const router = useRouter();
-
   const handleForm = (e) => {
     setForm({ ...form, [e.target.name]: e.target.value });
   };
+
+  useEffect(() => {
+    setForm({
+      animal: router.query.animal || '',
+      relationship: router.query.relationship || '',
+    });
+  }, [router.query]);
 
   const searchBarPosition = {
     all: `justify-self-center absolute left-1/2 transform -translate-x-1/2 transition-all duration-300`,
