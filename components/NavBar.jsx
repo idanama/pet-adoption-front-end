@@ -14,6 +14,7 @@ export default function NavBar() {
   const [userMenu, setUserMenu] = useState(false);
   const [login, setLogin] = useState(false);
   const [register, setRegister] = useState(false);
+  const [isSearchBarActive, setIsSearchBarActive] = useState(true);
 
   const { loggedIn, logout, user } = useContext(userContext);
 
@@ -25,7 +26,10 @@ export default function NavBar() {
 
   return (
     <>
-      <div className={`${shading}  top-0 left-0 w-full`}>
+      <div
+        className={`${shading}  top-0 left-0 w-full transition-all duration-300 h-full
+        ${isSearchBarActive ? 'max-h-40' : 'max-h-20'}`}
+      >
         <nav className="container relative mx-auto p-4 flex justify-between items-center">
           <div className="justify-self-start">
             <Link href="/">
@@ -34,7 +38,7 @@ export default function NavBar() {
               </a>
             </Link>
           </div>
-          <SearchBar />
+          <SearchBar updateNavSize={setIsSearchBarActive} />
           <div
             role="button"
             tabIndex={-1}

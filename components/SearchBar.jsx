@@ -8,7 +8,7 @@ import {
 import Selection from './base/Selection';
 import { useRouter } from 'next/router';
 
-export default function SearchBar() {
+export default function SearchBar({ updateNavSize }) {
   const router = useRouter();
 
   const [active, setActive] = useState(true);
@@ -19,6 +19,10 @@ export default function SearchBar() {
   const handleForm = (e) => {
     setForm({ ...form, [e.target.name]: e.target.value });
   };
+
+  useEffect(() => {
+    updateNavSize(active);
+  }, [active]);
 
   useEffect(() => {
     setForm({
@@ -73,6 +77,7 @@ export default function SearchBar() {
           if (selection !== null) {
             return setTimeout(() => {
               setSelection(null);
+              formRef.current.focus();
             }, 200);
           }
           if ((e.relatedTarget || e.currentTarget) === e.target) {
@@ -85,6 +90,7 @@ export default function SearchBar() {
             pathname: '/search',
             query: { animal: form.animal, relationship: form.relationship },
           });
+          setActive(false);
         }}
         role="menuitem"
         tabIndex="0"
