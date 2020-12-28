@@ -25,10 +25,14 @@ export default function SearchBar({ updateNavSize }) {
   }, [active]);
 
   useEffect(() => {
-    setForm({
-      animal: router.query.animal || '',
-      relationship: router.query.relationship || '',
-    });
+    if (router.route === '/search' || router.route === '/') {
+      setForm({
+        animal: router.query.animal || '',
+        relationship: router.query.relationship || '',
+      });
+    } else {
+      setActive(false);
+    }
   }, [router.query]);
 
   const searchBarPosition = {
