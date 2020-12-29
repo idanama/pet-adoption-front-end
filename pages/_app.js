@@ -47,12 +47,18 @@ function MyApp({ Component, pageProps }) {
   };
 
   const rehydrateUser = async () => {
-    const jwt = Cookies.get('jwt');
-    if (jwt) {
-      const userData = (await api.hydrateUser()).res;
-      setUser(userData);
+    try {
+      setLoading(true);
+      const jwt = Cookies.get('jwt');
+      if (jwt) {
+        const userData = (await api.hydrateUser()).res;
+        setUser(userData);
+      }
+    } catch (e) {
+      console.error(e);
+    } finally {
+      setLoading(false);
     }
-    setLoading(false);
   };
 
   useEffect(() => {
