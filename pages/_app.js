@@ -9,28 +9,34 @@ import api from '../utils/api';
 
 function MyApp({ Component, pageProps }) {
   const router = useRouter();
-
+  const [loading, setLoading] = useState(true);
   const [userState, setUser] = useState({});
 
   const signup = async (userInfo) => {
     try {
+      setLoading(true);
       const { token, user } = (await api.signup(userInfo)).res;
       Cookies.set('jwt', token, { expires: 30 });
       Cookies.set('uid', user._id, { expires: 30 });
       setUser(user);
     } catch (e) {
       console.error(e);
+    } finally {
+      setLoading(false);
     }
   };
 
   const login = async (email, password) => {
     try {
+      setLoading(true);
       const { token, user } = (await api.login(email, password)).res;
       Cookies.set('jwt', token, { expires: 30 });
       Cookies.set('uid', user._id, { expires: 30 });
       setUser(user);
     } catch (e) {
       console.error(e);
+    } finally {
+      setLoading(false);
     }
   };
   const logout = () => {
@@ -41,11 +47,12 @@ function MyApp({ Component, pageProps }) {
   };
 
   const rehydrateUser = async () => {
-    const uid = Cookies.get('uid');
-    if (uid) {
-      const userData = (await api.getUser(uid)).res;
+    const jwt = Cookies.get('jwt');
+    if (jwt) {
+      const userData = (await api.hydrateUser()).res;
       setUser(userData);
     }
+    setLoading(false);
   };
 
   useEffect(() => {
@@ -55,7 +62,7 @@ function MyApp({ Component, pageProps }) {
   return (
     <>
       <userContext.Provider value={{
-        loggedIn: '_id' in userState, login, logout, signup, user: userState,
+        loggedIn: '_id' in userState, login, logout, signup, user: userState, loading,
       }}
       >
         <Layout>
