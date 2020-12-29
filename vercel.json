@@ -1,0 +1,3 @@
+{
+  "routes": [{ "src": "/api/pet", "dest": "https://pet-adoption-back-end.herokuapp.com/pet" }]
+}
