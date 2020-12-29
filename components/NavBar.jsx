@@ -102,6 +102,30 @@ export default function NavBar() {
                         My Pets
                       </Button>
                     </li>
+                    {user.role === 'admin' && (
+                      <>
+                        <li className="p-2 w-full">
+                          <Button
+                            link="/admin/addpet"
+                            transparent
+                            fullWidth
+                            className="text-left"
+                          >
+                            Add Pet
+                          </Button>
+                        </li>
+                        <li className="border-b p-2 w-full">
+                          <Button
+                            link="/admin"
+                            transparent
+                            fullWidth
+                            className="text-left"
+                          >
+                            Dashboard
+                          </Button>
+                        </li>
+                      </>
+                    )}
                     <li className="p-2 w-full">
                       <Button
                         transparent
