@@ -51,8 +51,10 @@ function MyApp({ Component, pageProps }) {
       setLoading(true);
       const jwt = Cookies.get('jwt');
       if (jwt) {
-        const userData = (await api.hydrateUser()).res;
-        setUser(userData);
+        const { res, ok } = await api.hydrateUser();
+        if (ok) {
+          setUser(res);
+        }
       }
     } catch (e) {
       console.error(e);
