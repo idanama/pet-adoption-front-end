@@ -13,7 +13,6 @@ import {
   RiHeartFill,
 } from 'react-icons/ri';
 import { IconContext } from 'react-icons';
-import { formatDistanceToNow } from 'date-fns';
 import Button from '../../components/base/Button';
 import Register from '../../components/Register';
 import Login from '../../components/Login';
@@ -130,7 +129,7 @@ export default function PetPage() {
           </div>
           <div className="text-2xl">
             {!loading && (
-              `${pet.gender} ${pet.species.toLowerCase()}, ${formatDistanceToNow(new Date(pet.dateOfBirth.toString()))} old.`
+              `${pet.gender} ${pet.species.toLowerCase()}, ${pet.age}.`
             )}
           </div>
           <div className="grid grid-cols-1 md:grid-cols-2 mt-6 border-t border-b py-3">
