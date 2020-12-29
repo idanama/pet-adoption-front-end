@@ -1,4 +1,4 @@
-const baseUrl = process.env.VERCEL ? 'https://pet-adoption-back-end.herokuapp.com' : 'http://localhost:5000';
+const baseUrl = 'https://pet-adoption-back-end.herokuapp.com'; // 'http://localhost:5000';
 
 const fetchJson = async (url, options) => {
   const optionHelper = { ...options };
@@ -36,6 +36,7 @@ const getUser = (userId) => fetchJson(`${baseUrl}/user/${userId}`);
 const getUserFull = (userId) => fetchJson(`${baseUrl}/user/${userId}/full`);
 const updateUser = (userId, userData) => fetchJson(`${baseUrl}/user/${userId}`, { method: 'PUT', body: userData });
 const getUsers = () => fetchJson(`${baseUrl}/user`);
+const hydrateUser = () => fetchJson(`${baseUrl}/user/refresh`);
 
 export default {
   login,
@@ -55,4 +56,5 @@ export default {
   getUserFull,
   updateUser,
   getUsers,
+  hydrateUser,
 };
