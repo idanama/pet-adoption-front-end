@@ -46,8 +46,8 @@ export default function PetPage() {
     setPetTable([
       { title: 'Gender', value: petResponse.gender, icon: petResponse.gender === 'Male' ? <RiMenLine /> : <RiWomenLine /> },
       { title: 'Adoption Status', value: petResponse.status, icon: <RiEmpathizeLine /> },
-      { title: 'Height', value: petResponse.height, icon: <RiArrowUpDownLine /> },
-      { title: 'Weight', value: petResponse.weight, icon: <RiScales2Line /> },
+      { title: 'Height', value: `${petResponse.height} cm`, icon: <RiArrowUpDownLine /> },
+      { title: 'Weight', value: `${petResponse.weight} kg`, icon: <RiScales2Line /> },
       { title: 'Color', value: petResponse.color, icon: <RiPaletteLine /> },
       { title: 'Hypoallergenic', value: petResponse.hypoallergenic ? 'Yes' : 'No', icon: <RiCapsuleLine /> },
       { title: 'Diet', value: petResponse.diet, icon: <RiRestaurantLine /> },
