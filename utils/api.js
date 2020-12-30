@@ -1,4 +1,4 @@
-const baseUrl = process.env.NODE_ENV === 'development' ? 'http://localhost:5000' : 'https://pet-adoption-back-end.herokuapp.com';
+const baseUrl = process.env.NODE_ENV === 'development' ? 'http://localhost:5000' : '/api';
 
 const fetchJson = async (url, options) => {
   const optionHelper = { ...options };
