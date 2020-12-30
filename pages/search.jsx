@@ -34,7 +34,7 @@ export default function Search() {
 
   return (
     <>
-      <div className="container mx-auto max-w-screen-lg px-3 mt-40">
+      <div className="container-max">
         <h1 className="text-3xl">
           <span className="capitalize">{`${animal}s to ${relationship}`}</span>
         </h1>

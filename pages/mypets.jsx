@@ -28,7 +28,7 @@ export default function MyPets() {
   }, [user]);
 
   return (
-    <div className="container mx-auto max-w-screen-lg px-7 lg:px-1">
+    <div className="container-max">
       <h1 className="text-3xl mb-7">My Pets</h1>
       <h2 className="text-2xl mb-3">Owned Pets</h2>
       <section className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">

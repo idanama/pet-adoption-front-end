@@ -45,6 +45,18 @@
   h2 {
     @apply font-display;
   }
+
+  body {
+    color: rgb(72, 72, 72);
+  }
+
+  .container-max {
+    @apply container mx-auto max-w-screen-lg mt-16 px-7 lg:px-1;
+  }
+
+  .container-min {
+    @apply container mx-auto max-w-min mt-16 px-7 lg:px-1;
+  }
 }
 
 @layer utilities {

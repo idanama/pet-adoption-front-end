@@ -9,7 +9,7 @@ export default function Profile() {
   const [formUser, updateFormUser] = useState(user);
 
   return (
-    <div className="container mx-auto max-w-screen-lg px-3">
+    <div className="container-max">
       <h1 className="text-3xl">Profile</h1>
       <form className="flex pt-10 flex-col max-w-lg" autoComplete="off">
         <Input

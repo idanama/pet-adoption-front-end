@@ -104,7 +104,7 @@ export default function PetPage() {
   }, [name]);
 
   return (
-    <div className="container mx-auto max-w-screen-lg px-7 lg:px-1">
+    <div className="container-max">
       <img src={pet.pictures && pet.pictures[0]} alt={pet.name} className="object-cover h-full w-full object-center max-h-60v rounded-2xl" />
       <div className="flex">
         <div className="w-2/3 m-4">
