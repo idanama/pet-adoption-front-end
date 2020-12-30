@@ -11,12 +11,12 @@ export default function Footer() {
             </Link>
           </li>
           <li>
-            <Link href="/cats">
+            <Link href="/search?animal=cat">
               <a>Cats</a>
             </Link>
           </li>
           <li>
-            <Link href="/dogs">
+            <Link href="/search?animal=dog">
               <a>Dogs</a>
             </Link>
           </li>
