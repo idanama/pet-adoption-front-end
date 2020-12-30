@@ -3,11 +3,11 @@ import { RiCloseLine } from 'react-icons/ri';
 export default function Modal({ children, title, close }) {
   return (
     <div
-      className="w-screen h-screen fixed top-0 left-0 bg-opacity-50 bg-black flex items-center justify-center"
+      className="w-screen h-screen fixed top-0 left-0 bg-opacity-50 bg-black flex items-center justify-center z-20"
       onClick={close}
     >
       <div
-        className="absolute w-96 bg-white rounded-lg"
+        className="absolute w-96 bg-white rounded-lg z-30"
         onClick={(e) => e.stopPropagation()}
       >
         <div className="p-4 relative border-b">
