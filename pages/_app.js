@@ -9,12 +9,12 @@ import api from '../utils/api';
 
 function MyApp({ Component, pageProps }) {
   const router = useRouter();
-  const [loading, setLoading] = useState(true);
+  const [loadingUser, setLoadingUser] = useState(true);
   const [userState, setUser] = useState({});
 
   const signup = async (userInfo) => {
     try {
-      setLoading(true);
+      setLoadingUser(true);
       const { token, user } = (await api.signup(userInfo)).res;
       Cookies.set('jwt', token, { expires: 30 });
       Cookies.set('uid', user._id, { expires: 30 });
@@ -22,13 +22,13 @@ function MyApp({ Component, pageProps }) {
     } catch (e) {
       console.error(e);
     } finally {
-      setLoading(false);
+      setLoadingUser(false);
     }
   };
 
   const login = async (email, password) => {
     try {
-      setLoading(true);
+      setLoadingUser(true);
       const { token, user } = (await api.login(email, password)).res;
       Cookies.set('jwt', token, { expires: 30 });
       Cookies.set('uid', user._id, { expires: 30 });
@@ -36,7 +36,7 @@ function MyApp({ Component, pageProps }) {
     } catch (e) {
       console.error(e);
     } finally {
-      setLoading(false);
+      setLoadingUser(false);
     }
   };
   const logout = () => {
@@ -48,7 +48,7 @@ function MyApp({ Component, pageProps }) {
 
   const rehydrateUser = async () => {
     try {
-      setLoading(true);
+      setLoadingUser(true);
       const jwt = Cookies.get('jwt');
       if (jwt) {
         const { res, ok } = await api.hydrateUser();
@@ -59,7 +59,7 @@ function MyApp({ Component, pageProps }) {
     } catch (e) {
       console.error(e);
     } finally {
-      setLoading(false);
+      setLoadingUser(false);
     }
   };
 
@@ -67,10 +67,24 @@ function MyApp({ Component, pageProps }) {
     rehydrateUser();
   }, []);
 
+  useEffect(() => {
+    if (
+      router.route.startsWith('/admin')
+      && !loadingUser
+      && userState.role !== 'admin') {
+      router.push('/');
+    }
+  }, [userState, loadingUser, router]);
+
   return (
     <>
       <userContext.Provider value={{
-        loggedIn: '_id' in userState, login, logout, signup, user: userState, loading,
+        loggedIn: '_id' in userState,
+        login,
+        logout,
+        signup,
+        user: userState,
+        loading: loadingUser,
       }}
       >
         <Layout>
