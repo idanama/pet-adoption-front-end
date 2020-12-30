@@ -7,8 +7,8 @@ export default function Layout({ children }) {
   const spacing = router.pathname === '/' ? '' : 'mt-24';
   return (
     <>
-      <div className={`${spacing} min-h-screen`}>{children}</div>
       <NavBar />
+      <div className={`${spacing} min-h-screen`}>{children}</div>
       <Footer />
     </>
   );

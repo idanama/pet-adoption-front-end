@@ -21,14 +21,18 @@ export default function NavBar() {
   const router = useRouter();
   const homePath = router.pathname === '/';
   const shading = homePath
-    ? 'bg-gradient-to-b from-black-0.4 to-transparent fixed'
-    : 'bg-white shadow-lg absolute';
+    ? 'bg-gradient-to-b from-black-0.4 to-transparent '
+    : 'bg-white shadow-lg';
+  const navBarHeight = isSearchBarActive ? 'max-h-40' : 'max-h-20';
 
   return (
     <>
+      {!homePath && (
+        <div className={`h-40 ${navBarHeight} transition-all duration-300`} />
+      )}
       <div
-        className={`${shading}  top-0 left-0 w-full transition-all duration-300 h-full
-        ${isSearchBarActive ? 'max-h-40' : 'max-h-20'}`}
+        className={`${shading} z-10 fixed top-0 left-0 w-full transition-all duration-300 h-full
+        ${navBarHeight}`}
       >
         <nav className="container relative mx-auto p-4 flex justify-between items-center">
           <div className="justify-self-start">
