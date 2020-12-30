@@ -51,11 +51,11 @@
   }
 
   .container-max {
-    @apply container mx-auto max-w-screen-lg mt-16 px-7 lg:px-1;
+    @apply container mx-auto max-w-screen-lg mt-16 mb-8 px-7 lg:px-1;
   }
 
   .container-min {
-    @apply container mx-auto max-w-min mt-16 px-7 lg:px-1;
+    @apply container mx-auto max-w-min mt-16 mb-8 px-7 lg:px-1;
   }
 }
 
