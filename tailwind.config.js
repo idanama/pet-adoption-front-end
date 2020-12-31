@@ -1,4 +1,5 @@
 const defaultTheme = require('tailwindcss/defaultTheme');
+const colors = require('tailwindcss/colors');
 
 module.exports = {
   purge: [],
@@ -24,6 +25,11 @@ module.exports = {
         small: '2.2rem',
         medium: '2.8rem',
         large: '6rem',
+      },
+      colors: {
+        fostered: colors.yellow[500],
+        adopted: colors.gray[50],
+        adoptable: colors.green[500],
       },
     },
   },
