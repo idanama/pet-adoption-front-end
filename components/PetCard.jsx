@@ -3,7 +3,7 @@ import Button from './base/Button';
 
 export default function PetCard({ pet }) {
   return (
-    <Link href={`/pet/${pet.name}`}>
+    <Link href={`/pet/${pet.name.toLowerCase()}`}>
       <div className="bg-white rounded-2xl shadow-lg hover:shadow-xl transition duration-200 overflow-hidden cursor-pointer">
         <div className="h-40 overflow-hidden  bg-gray-300">
           <img
