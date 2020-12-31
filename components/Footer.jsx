@@ -2,7 +2,7 @@ import Link from 'next/link';
 
 export default function Footer() {
   return (
-    <div className="border-t">
+    <div className="border-t mt-16">
       <footer className="mt-10 mb-20 container mx-auto px-4">
         <ul>
           <li>
