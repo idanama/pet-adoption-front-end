@@ -1,22 +1,14 @@
 import { useRouter } from 'next/router';
 import { useEffect, useState, useContext } from 'react';
 import {
-  RiPaletteLine,
-  RiMenLine,
-  RiWomenLine,
-  RiScales2Line,
-  RiArrowUpDownLine,
-  RiCapsuleLine,
-  RiEmpathizeLine,
-  RiRestaurantLine,
   RiHeartLine,
   RiHeartFill,
 } from 'react-icons/ri';
-import { IconContext } from 'react-icons';
 import Button from '../../components/base/Button';
 import Register from '../../components/Register';
 import Login from '../../components/Login';
 import Modal from '../../components/base/Modal';
+import PetProfile from '../../components/PetProfile';
 import api from '../../utils/api';
 
 import userContext from '../../context/userContext';
@@ -29,7 +21,6 @@ export default function PetPage() {
   const [pet, setPet] = useState({
     Name: 'Loading', pictures: [''], gender: '', dateOfBirth: new Date(), type: '',
   });
-  const [petTable, setPetTable] = useState([{ title: '', value: '', icon: '' }]);
   const [saved, setSaved] = useState(false);
   const [modal, setModal] = useState('');
 
@@ -37,123 +28,86 @@ export default function PetPage() {
 
   const fetchPetByName = async (petName) => {
     setLoading(true);
-    const petResponse = (await api.getPetByName(petName)).res;
-    let userOwned = false;
-    if (user._id) {
-      userOwned = petResponse.owner === user._id;
+    const { res, ok } = await api.getPetByName(petName);
+    if (ok) {
+      let userOwned = false;
+      if (user._id) {
+        userOwned = res.owner === user._id;
+      }
+      setPet({ ...res, userOwned });
     }
-    setPet({ ...petResponse, userOwned });
-    setPetTable([
-      { title: 'Gender', value: petResponse.gender, icon: petResponse.gender === 'Male' ? <RiMenLine /> : <RiWomenLine /> },
-      { title: 'Adoption Status', value: petResponse.status, icon: <RiEmpathizeLine /> },
-      { title: 'Height', value: `${petResponse.height} cm`, icon: <RiArrowUpDownLine /> },
-      { title: 'Weight', value: `${petResponse.weight} kg`, icon: <RiScales2Line /> },
-      { title: 'Color', value: petResponse.color, icon: <RiPaletteLine /> },
-      { title: 'Hypoallergenic', value: petResponse.hypoallergenic ? 'Yes' : 'No', icon: <RiCapsuleLine /> },
-      { title: 'Diet', value: petResponse.diet, icon: <RiRestaurantLine /> },
-    ]);
-
     setLoading(false);
   };
 
   const changePetOwnership = async (status) => {
-    let petResponse;
-    switch (status) {
-      case 'adopt':
-        petResponse = (await api.adoptPet(user._id, pet._id, 'adopt')).res;
-        break;
-      case 'foster':
-        petResponse = (await api.adoptPet(user._id, pet._id, 'foster')).res;
-        break;
-      case 'return':
-        petResponse = (await api.returnPet(user._id, pet._id)).res;
-        break;
-      default:
-        break;
-    }
-    setPet(petResponse);
-  };
-
-  const likePet = async () => {
-    setSaved(true);
-    const { savedPets, ok } = await api.savePet(user._id, pet._id);
-    if (!ok || !savedPets.includes(pet._id)) {
-      setSaved(false);
-    }
-  };
-
-  const unlikePet = async () => {
-    setSaved(false);
-    const { savedPets, ok } = await api.deleteSavedPet(user._id, pet._id);
-    if (!ok || savedPets.includes(pet._id)) {
-      setSaved(true);
-    }
-  };
-
-  const toggleLikePet = () => {
-    if (saved) {
-      unlikePet();
+    if (status === 'return') {
+      const { res, ok } = await api.returnPet(user._id, pet._id);
+      if (ok) {
+        setPet(res);
+      }
     } else {
-      likePet();
+      const { res, ok } = await api.adoptPet(user._id, pet._id, status);
+      if (ok) {
+        setPet(res);
+      }
     }
   };
+
+  const toggleLikePet = async () => {
+    if (saved) {
+      setSaved(false);
+      const { res, ok } = await api.deleteSavedPet(user._id, pet._id);
+      if (!ok || res.savedPets.includes(pet._id)) {
+        setSaved(true);
+      }
+    } else {
+      setSaved(true);
+      const { res, ok } = await api.savePet(user._id, pet._id);
+      if (!ok || !res.savedPets.includes(pet._id)) {
+        setSaved(false);
+      }
+    }
+  };
+
   useEffect(() => {
     if (name !== undefined) {
       fetchPetByName(name);
     }
   }, [name]);
 
+  useEffect(() => {
+    if (user.savedPets?.includes(pet._id)) {
+      setSaved(true);
+    }
+  }, [user, pet]);
+
   return (
     <div className="container-max">
-      <img src={pet.pictures && pet.pictures[0]} alt={pet.name} className="object-cover h-full w-full object-center max-h-60v rounded-2xl" />
+      <div className="relative">
+        <img src={pet.pictures && pet.pictures[0]} alt={pet.name} className="object-cover h-full w-full object-center max-h-60v rounded-2xl" />
+        <div className="absolute bottom-4 right-6">
+          <Button
+            transparent
+            className="flex flex-col items-center w-12 h-12 text-4xl"
+            onClick={() => toggleLikePet()}
+          >
+            {!saved && (
+              <RiHeartLine className="text-white" />
+            )}
+            {saved && (
+              <RiHeartFill className="text-green-500" />
+            )}
+          </Button>
+        </div>
+      </div>
       <div className="flex">
         <div className="w-2/3 m-4">
-          <div className="text-4xl pb-3 flex justify-between items-center">
-            <h1>{pet.name}</h1>
-            <Button transparent className="flex flex-col items-center w-5" onClick={() => toggleLikePet()}>
-              {!saved && (
-              <>
-                <RiHeartLine size="0.8em" />
-                <div className="text-sm text-gray-700 underline">Save</div>
-              </>
-              )}
-              {
-                saved && (
-                <>
-                  <RiHeartFill size="0.8em" className="text-green-500" />
-                  <div className="text-sm text-gray-700 underline invisible">Remove</div>
-                </>
-                )
-              }
-            </Button>
-          </div>
-          <div className="text-2xl">
-            {!loading && (
-              `${pet.gender} ${pet.species.toLowerCase()}, ${pet.age}.`
-            )}
-          </div>
-          <div className="grid grid-cols-1 md:grid-cols-2 mt-6 border-t border-b py-3">
-            <IconContext.Provider value={{ size: '1.5em' }}>
-              {petTable.map((field) => (field.value
-                && (
-                <div key={field.title} className="flex p-3">
-                  <div className="w-12 flex items-center">{field.icon}</div>
-                  <div className="w-full">
-                    <div className="font-semibold">
-                      {field.title}
-                    </div>
-                    <div>
-                      {field.value}
-                    </div>
-                  </div>
-                </div>
-                )
-              ))}
-            </IconContext.Provider>
-          </div>
-          <div className="mt-3 text-lg">
-            {pet.bio}
-          </div>
+
+          {
+            !loading && (
+              <PetProfile pet={pet} />
+            )
+          }
         </div>
         <div className="md:px-5 w-1/3">
           <div className="sticky top-1/3 py-5">

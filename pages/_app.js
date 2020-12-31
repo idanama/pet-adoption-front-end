@@ -39,11 +39,20 @@ function MyApp({ Component, pageProps }) {
       setLoadingUser(false);
     }
   };
+
   const logout = () => {
     setUser({});
     router.push('/');
     Cookies.remove('jwt');
     Cookies.remove('uid');
+  };
+
+  const setSavedPet = (petId, truth) => {
+    if (truth) {
+      return setUser({ ...userState, savedPets: { ...userState.setSavedPets, petId } });
+    }
+    const filteredPets = userState.setSavedPets.filter((id) => id !== petId);
+    return setUser({ ...userState, savedPets: filteredPets });
   };
 
   const rehydrateUser = async () => {
@@ -85,6 +94,7 @@ function MyApp({ Component, pageProps }) {
         signup,
         user: userState,
         loading: loadingUser,
+        setSavedPet,
       }}
       >
         <Layout>

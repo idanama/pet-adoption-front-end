@@ -6,6 +6,8 @@ const loggedIn = createContext({
   login: () => { },
   logout: () => { },
   signup: () => { },
+  savedPets: [],
+  setSavedPet: () => {},
 });
 
 export default loggedIn;
