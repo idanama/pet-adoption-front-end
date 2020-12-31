@@ -18,7 +18,13 @@ export default function PetCard({ pet }) {
         <div className="p-3 pb-6 flex justify-between items-center">
           <div className="text-3xl">{pet.name}</div>
           <div>
-            <Button>{pet.status}</Button>
+            <Button
+              color={`bg-${pet.status.toLowerCase()} ${
+                pet.status === 'Adopted' ? 'text-gray-500' : 'text-gray-50'
+              }`}
+            >
+              {pet.status}
+            </Button>
           </div>
         </div>
       </div>

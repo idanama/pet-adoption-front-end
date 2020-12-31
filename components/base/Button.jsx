@@ -13,9 +13,14 @@ export default function Button({
   className,
   link,
   text,
+  color,
 }) {
   const buttonClass = `rounded px-3
-      ${!white && !transparent && !text ? 'bg-gray-400 text-white' : ''}
+      ${
+        !white && !transparent && !text && !color
+          ? 'bg-gray-400 text-white'
+          : ''
+      }
       ${primary ? 'bg-green-500 text-white font-semibold' : ''}
       ${white ? 'bg-white text-black border' : ''}
       ${transparent ? 'bg-transparent text-current' : ''}
@@ -23,6 +28,7 @@ export default function Button({
       ${xl ? 'py-3' : 'py-1'}
       ${fullWidth ? 'w-full' : ''}
       ${className || ''}
+      ${color && color}
       `;
 
   return (
