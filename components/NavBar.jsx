@@ -110,7 +110,7 @@ export default function NavBar() {
                       <>
                         <li className="p-2 w-full">
                           <Button
-                            link="/admin/addpet"
+                            link="/admin/pets/add"
                             transparent
                             fullWidth
                             className="text-left"

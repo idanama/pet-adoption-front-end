@@ -35,7 +35,7 @@ const getUserPets = (userId) => fetchJson(`${baseUrl}/pet/user/${userId}`);
 const getUser = (userId) => fetchJson(`${baseUrl}/user/${userId}`);
 const getUserFull = (userId) => fetchJson(`${baseUrl}/user/${userId}/full`);
 const updateUser = (userId, userData) => fetchJson(`${baseUrl}/user/${userId}`, { method: 'PUT', body: userData });
-const getUsers = () => fetchJson(`${baseUrl}/user`);
+const getUsers = (query) => fetchJson(`${baseUrl}/user${query || ''}`);
 const hydrateUser = () => fetchJson(`${baseUrl}/user/refresh`);
 
 export default {

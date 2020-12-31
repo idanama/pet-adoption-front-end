@@ -19,7 +19,7 @@ export default function Dashboard() {
     },
     {
       name: 'Manage Users',
-      text: 'See recent adoptions, users and contact users.',
+      text: 'Overview of all the users and contact information.',
       icon: <RiFolderUserLine />,
       href: '/admin/users/manage',
     },
