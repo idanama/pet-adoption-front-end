@@ -4,6 +4,7 @@ import { RiArrowRightSLine } from 'react-icons/ri';
 import api from '../../../utils/api';
 
 import userContext from '../../../context/userContext';
+import PetIcon from '../../../components/PetIcon';
 
 export default function AddPet() {
   const [users, setUsers] = useState([]);
@@ -43,22 +44,12 @@ export default function AddPet() {
                   </div>
                   <div className="flex flex-wrap mt-4">
                     {petUser.ownedPets?.map((pet) => (
-                      <div className="relative">
-                        <div
-                          className={`rounded-full overflow-hidden h-16 w-16 m-2`}
-                        >
-                          <img
-                            src={pet.pictures[0]}
-                            className="object-cover h-full"
-                          />
-                        </div>
-                        <div
-                          className={`absolute bottom-3 right-3 w-3 h-3 rounded-full ${
-                            pet.status !== 'Adopted' &&
-                            `bg-${pet.status.toLowerCase()} shadow-inner`
-                          }`}
-                        ></div>
-                      </div>
+                      <PetIcon
+                        status={pet.status}
+                        photo={pet.pictures[0]}
+                        name={pet.name}
+                        key={pet._id}
+                      />
                     ))}
                   </div>
                 </div>
