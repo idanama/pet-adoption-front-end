@@ -5,8 +5,11 @@ import Button from './base/Button';
 import userContext from '../context/userContext';
 
 export default function Login({ close }) {
-  const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('');
+  const [form, setForm] = useState({ email: '', password: '' });
+
+  const handleEdit = (edited) => {
+    setForm({ ...form, ...edited });
+  };
 
   const { login } = useContext(userContext);
 
@@ -15,16 +18,18 @@ export default function Login({ close }) {
       <form className="flex flex-col">
         <Input
           type="email"
-          name="Email"
-          value={email}
-          onChange={setEmail}
+          name="email"
+          label="Email"
+          value={form.email}
+          onChange={handleEdit}
           required
         />
         <Input
           type="password"
-          name="Password"
-          value={password}
-          onChange={setPassword}
+          name="password"
+          label="Password"
+          value={form.password}
+          onChange={handleEdit}
           required
         />
         <Button
@@ -32,7 +37,7 @@ export default function Login({ close }) {
           primary
           xl
           onClick={async () => {
-            await login(email, password);
+            await login(form.email, form.password);
             close();
           }}
         >
