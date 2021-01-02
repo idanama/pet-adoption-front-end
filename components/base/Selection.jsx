@@ -1,5 +1,3 @@
-import { Children, useState } from 'react';
-
 export default function Selection({
   children,
   category,
@@ -20,7 +18,7 @@ export default function Selection({
   const openButtonStyle = {
     xl: {
       all:
-        'absolute -bottom-4 w-full transform translate-y-full bg-white rounded-3xl py-5',
+        'absolute -bottom-4 w-full transform translate-y-full bg-white rounded-3xl py-5 shadow-static',
       left: 'max-w-sm',
       right: 'right-0 max-w-sm',
       full: '',

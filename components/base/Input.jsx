@@ -9,6 +9,8 @@ export default function Input({
   onChange,
   required,
   suffix,
+  placeholder,
+  className,
 }) {
   const [focus, setFocus] = useState(false);
 
@@ -17,7 +19,7 @@ export default function Input({
     !label || labelPlaceholder ? 'py-3' : 'pt-5 pb-1';
 
   return (
-    <label htmlFor={name} className="relative mb-4 flex">
+    <label htmlFor={name} className="relative mb-4 flex w-full">
       {label && (
         <div
           className={`absolute left-3 duration-100 z-10 ${
@@ -36,6 +38,7 @@ export default function Input({
           name={name}
           id={name}
           value={value}
+          placeholder={placeholder}
           onFocus={() => {
             setFocus(true);
           }}
@@ -46,7 +49,7 @@ export default function Input({
             onChange({ [e.target.name]: e.target.value });
           }}
           min={0}
-          className={`border px-3  transition-all duration-100 ${placeholderInputPadding} w-full rounded-md focus:border-black`}
+          className={`border px-3 ${className} transition-all duration-100 ${placeholderInputPadding} w-full rounded-md focus:border-black focus:border-2`}
         />
       )}
       {suffix && (
@@ -56,10 +59,11 @@ export default function Input({
       )}
       {type === 'textarea' && (
         <textarea
-          className={`border px-3 ${placeholderInputPadding} w-full rounded-md focus:border-black`}
+          className={`border px-3 ${className} ${placeholderInputPadding} w-full rounded-md focus:border-black focus:border-2`}
           name={name}
           id={name}
           value={value}
+          placeholder={placeholder}
           cols="30"
           rows="3"
           onFocus={() => {
