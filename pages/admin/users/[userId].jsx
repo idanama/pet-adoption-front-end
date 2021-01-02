@@ -32,7 +32,7 @@ export default function ManageUser() {
     return (
       <div className="container-max">
         <h3 className="text-xl mb-4">
-          <span className="text-green-500">
+          <span className="text-primary">
             <Link href="/admin/users/manage">← Manage Users</Link>
           </span>
         </h3>

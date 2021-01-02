@@ -10,7 +10,7 @@ export default function AddPet() {
     return (
       <div className="container-max">
         <h3 className="text-xl mb-4">
-          <span className="text-green-500">
+          <span className="text-primary">
             <Link href="/admin">← Dashboard</Link>
           </span>
         </h3>

@@ -29,7 +29,8 @@ module.exports = {
       colors: {
         fostered: colors.yellow[500],
         adopted: colors.gray[50],
-        adoptable: colors.green[400],
+        adoptable: colors.emerald[400],
+        primary: colors.emerald[400],
       },
     },
   },

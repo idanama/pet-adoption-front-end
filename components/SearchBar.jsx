@@ -50,13 +50,14 @@ export default function SearchBar({ updateNavSize }) {
 
   const searchButtonStyle = {
     all:
-      'absolute w-full bg-green-400 rounded-full flex flex-row-reverse items-center cursor-pointer text-white transition-all duration-200',
+      'absolute w-full bg-primary rounded-full flex flex-row-reverse items-center cursor-pointer text-white transition-all duration-200',
     small: 'p-2  right-1 max-w-small',
     medium: 'p-3 right-2 max-w-medium',
     large: 'p-3 right-2 max-w-large',
   };
 
   const formNotEmpty = Object.values(form).some((el) => el);
+
   const searchBarState = () => {
     if (!active) {
       return 'small';

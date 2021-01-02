@@ -95,7 +95,7 @@ export default function PetPage() {
               <RiHeartLine className="text-white" />
             )}
             {saved && (
-              <RiHeartFill className="text-green-500" />
+              <RiHeartFill className="text-primary" />
             )}
           </Button>
         </div>

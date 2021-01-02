@@ -41,7 +41,7 @@ export default function Dashboard() {
             {`${user.fName} ${user.lName}`}
           </span>
           {' · '}
-          <span className="text-green-500">
+          <span className="text-primary">
             <Link href="/profile">Go to profile</Link>
           </span>
         </h3>

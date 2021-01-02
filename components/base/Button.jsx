@@ -21,7 +21,7 @@ export default function Button({
           ? 'bg-gray-400 text-white'
           : ''
       }
-      ${primary ? 'bg-green-500 text-white font-semibold' : ''}
+      ${primary ? 'bg-primary text-white font-semibold' : ''}
       ${white ? 'bg-white text-black border' : ''}
       ${transparent ? 'bg-transparent text-current' : ''}
       ${text ? 'bg-transparent text-left underline' : ''}
