@@ -1,7 +1,6 @@
 /* eslint-disable react/jsx-props-no-spreading */
 import '../styles/globals.css';
 import { useEffect, useState } from 'react';
-import Cookies from 'js-cookie';
 import { useRouter } from 'next/router';
 import Layout from '../components/Layout';
 import userContext from '../context/userContext';
@@ -15,9 +14,7 @@ function MyApp({ Component, pageProps }) {
   const signup = async (userInfo) => {
     try {
       setLoadingUser(true);
-      const { token, user } = (await api.signup(userInfo)).res;
-      Cookies.set('jwt', token, { expires: 30 });
-      Cookies.set('uid', user._id, { expires: 30 });
+      const { user } = (await api.signup(userInfo)).res;
       setUser(user);
     } catch (e) {
       console.error(e);
@@ -29,9 +26,7 @@ function MyApp({ Component, pageProps }) {
   const login = async (email, password) => {
     try {
       setLoadingUser(true);
-      const { token, user } = (await api.login(email, password)).res;
-      Cookies.set('jwt', token, { expires: 30 });
-      Cookies.set('uid', user._id, { expires: 30 });
+      const { user } = (await api.login(email, password)).res;
       setUser(user);
     } catch (e) {
       console.error(e);
@@ -43,8 +38,7 @@ function MyApp({ Component, pageProps }) {
   const logout = () => {
     setUser({});
     router.push('/');
-    Cookies.remove('jwt');
-    Cookies.remove('uid');
+    document.cookie = 'jwt=; Max-Age=-99999999999';
   };
 
   const setSavedPet = (petId, truth) => {
@@ -58,12 +52,9 @@ function MyApp({ Component, pageProps }) {
   const rehydrateUser = async () => {
     try {
       setLoadingUser(true);
-      const jwt = Cookies.get('jwt');
-      if (jwt) {
-        const { res, ok } = await api.hydrateUser();
-        if (ok) {
-          setUser(res);
-        }
+      const { res, ok } = await api.hydrateUser();
+      if (ok) {
+        setUser(res);
       }
     } catch (e) {
       console.error(e);
