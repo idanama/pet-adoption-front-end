@@ -31,6 +31,7 @@ module.exports = {
         adopted: colors.gray[50],
         adoptable: colors.emerald[400],
         primary: colors.emerald[400],
+        error: colors.red[700],
       },
     },
   },
