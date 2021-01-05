@@ -2,6 +2,7 @@ import { useEffect, useState, useContext } from 'react';
 
 import { useRouter } from 'next/router';
 import Link from 'next/link';
+import { RiUpload2Line } from 'react-icons/ri';
 
 import Button from '../../../components/base/Button';
 import PetProfile from '../../../components/PetProfile';
@@ -17,6 +18,8 @@ export default function EditPet() {
   const [pet, setPet] = useState({
     Name: 'Loading', pictures: [''], gender: '', dateOfBirth: new Date(), type: '',
   });
+  const [picture, setPicture] = useState({ preview: null, file: null });
+  const [errors, setErrors] = useState({});
 
   const [loading, setLoading] = useState(true);
 
@@ -33,11 +36,23 @@ export default function EditPet() {
   };
 
   const saveChanges = async () => {
-    const { res, ok } = await api.editPet(petId, pet);
-    if (ok) {
+    const formData = new FormData();
+    Object.keys(pet).forEach((key) => {
+      if (pet[key] !== '') {
+        formData.append(key, pet[key]);
+      }
+    });
+    if (picture.file) {
+      formData.append('picture', picture.file);
+    }
+    const { res, error } = await api.editPet(petId, formData);
+    if (!error) {
+      setErrors({});
       setLoading(true);
-      setPet(res);
+      setPet({ ...pet, res });
       setLoading(false);
+    } else {
+      setErrors(error.errors);
     }
   };
 
@@ -60,27 +75,53 @@ export default function EditPet() {
             <Link href="/admin/pets/manage">← Manage Pets</Link>
           </span>
         </h3>
-        <div className="relative">
-          <img src={pet.pictures && pet.pictures[0]} alt={pet.name} className="object-cover h-full w-full object-center max-h-60v rounded-2xl" />
-        </div>
-        <div className="flex">
-          <div className="w-2/3 m-4">
+        <form action={`/api/pet/${petId}`} method="put" encType="multipart/form-data">
+          <div className="relative rounded-2xl bg-gray-200  min-h-30v overflow-hidden">
+            <label
+              htmlFor="picture"
+              className="absolute top-0 left-0 w-full h-full cursor-pointer"
+            >
+              <input
+                type="file"
+                name="picture"
+                id="picture"
+                className="opacity-0 absolute -z-10 w-full h-full"
+                onChange={(e) => setPicture({
+                  preview: URL.createObjectURL(e.target.files[0]),
+                  file: e.target.files[0],
+                })}
+              />
+              {!picture.preview && !pet.pictures[0] && (
+                <div className="h-full w-full cursor-pointer flex items-center justify-around">
+                  <RiUpload2Line size="3rem" />
+                </div>
+              )}
+            </label>
+            <img
+              src={picture.preview || pet.pictures[0]}
+              alt={pet.name}
+              className="object-cover h-full w-full object-center max-h-60v"
+            />
+          </div>
+          <div className="flex">
+            <div className="w-2/3 m-4">
 
-            {
+              {
             !loading && (
-              <PetProfile pet={pet} onEdit={handleEdit} />
+              <PetProfile pet={pet} onEdit={handleEdit} errors={errors} />
             )
           }
-          </div>
-          <div className="md:px-5 w-1/3">
-            <div className="sticky top-1/3 py-5">
-              <div className=" p-5 border rounded-xl shadow-xl grid grid-cols-1 gap-2 min-h-">
-                <Button primary onClick={() => saveChanges()}>Save changes</Button>
-                <Button onClick={() => resetChanges()}>Reset form</Button>
+            </div>
+            <div className="md:px-5 w-1/3">
+              <div className="sticky top-1/3 py-5">
+                <div className=" p-5 border rounded-xl shadow-xl grid grid-cols-1 gap-2 min-h-">
+                  <Button primary onClick={() => saveChanges()}>Save changes</Button>
+                  <Button onClick={() => resetChanges()}>Reset changes</Button>
+                </div>
               </div>
             </div>
           </div>
-        </div>
+        </form>
       </div>
     );
   }

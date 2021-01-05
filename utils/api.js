@@ -1,18 +1,17 @@
 const baseUrl = process.env.NODE_ENV === 'development' ? 'http://localhost:5000' : '/api';
 
-const fetchJson = async (url, options) => {
+const fetchJson = async (url, options, formData = false) => {
   const optionHelper = { ...options };
-  if (optionHelper.body) {
+  if (optionHelper.body && !formData) {
     optionHelper.headers = { 'Content-Type': 'application/json' };
     optionHelper.body = JSON.stringify(options.body);
   }
   optionHelper.credentials = 'include';
   const res = await fetch(url, optionHelper);
   if (res.ok) {
-    return { res: await res.json(), ok: true };
+    return { res: await res.json(), error: undefined, ok: true };
   }
-
-  const { error } = await res.json();
+  const error = await res.json();
   error.status = res.status;
   console.error(error);
   return ({ error, ok: false });
@@ -21,12 +20,12 @@ const fetchJson = async (url, options) => {
 const signup = async (userData) => fetchJson(`${baseUrl}/signup`, { method: 'POST', body: userData });
 const login = async (email, password) => fetchJson(`${baseUrl}/login`, { method: 'POST', body: { email, password } });
 
-const addPet = (petData) => fetchJson(`${baseUrl}/pet`, { method: 'POST', body: petData });
+const addPet = (petData) => fetchJson(`${baseUrl}/pet`, { method: 'POST', body: petData }, true);
 const getPet = (petId) => fetchJson(`${baseUrl}/pet/${petId}`);
 const getPetByName = (petName) => fetchJson(`${baseUrl}/pet/name/${petName}`);
 const getRandomPet = () => fetchJson(`${baseUrl}/pet/random`);
 const getPets = (query) => fetchJson(`${baseUrl}/pet${query || ''}`);
-const editPet = (petId, petData) => fetchJson(`${baseUrl}/pet/${petId}`, { method: 'PUT', body: petData });
+const editPet = (petId, petData) => fetchJson(`${baseUrl}/pet/${petId}`, { method: 'PUT', body: petData }, true);
 const adoptPet = (userId, petId, action) => fetchJson(`${baseUrl}/pet/${petId}/adopt`, { method: 'POST', body: { action, userId } });
 const returnPet = (userId, petId) => fetchJson(`${baseUrl}/pet/${petId}/return`, { method: 'POST', body: { userId } });
 const savePet = (userId, petId) => fetchJson(`${baseUrl}/pet/${petId}/save`, { method: 'POST', body: { userId } });

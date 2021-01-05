@@ -3,37 +3,58 @@ import {
   RiPaletteLine,
   RiMenLine,
   RiWomenLine,
+  RiGenderlessLine,
   RiScales2Line,
   RiArrowUpDownLine,
   RiCapsuleLine,
   RiEmpathizeLine,
   RiRestaurantLine,
   RiCake2Line,
+  RiPriceTagLine,
+  RiHonourLine,
 } from 'react-icons/ri';
-import Selection from './base/Selection';
+import { useEffect, useState } from 'react';
 import Input from './base/Input';
 import Options from './base/Options';
-import { useEffect, useState } from 'react';
 
-export default function PetProfile({ pet, onEdit }) {
+export default function PetProfile({ pet, onEdit, errors }) {
   const [petCompare, setPetCompare] = useState({});
 
   useEffect(() => {
     setPetCompare(pet);
   }, []);
 
+  const gender = {
+    Male: <RiMenLine />,
+    Female: <RiWomenLine />,
+    Other: <RiGenderlessLine />,
+  };
+
   const petTable = [
     {
-      title: 'Gender',
-      value: pet.gender,
-      icon: pet.gender === 'Male' ? <RiMenLine /> : <RiWomenLine />,
+      title: 'Date of birth',
+      icon: <RiCake2Line />,
+      type: 'date',
+      name: 'dateOfBirth',
+      editOnly: true,
+    },
+    {
+      title: 'Species',
+      icon: <RiPriceTagLine />,
       type: 'selection',
-      options: ['Male', 'Female'],
+      options: ['Cat', 'Dog', 'Other'],
+      name: 'species',
+      editOnly: true,
+    },
+    {
+      title: 'Gender',
+      icon: gender[pet.gender] || <RiGenderlessLine />,
+      type: 'selection',
+      options: ['Male', 'Female', 'Other'],
       name: 'gender',
     },
     {
       title: 'Adoption Status',
-      value: pet.status,
       icon: <RiEmpathizeLine />,
       type: 'selection',
       options: ['Adoptable', 'Adopted', 'Fostered'],
@@ -41,7 +62,6 @@ export default function PetProfile({ pet, onEdit }) {
     },
     {
       title: 'Height',
-      value: `${pet.height} cm`,
       icon: <RiArrowUpDownLine />,
       type: 'number',
       name: 'height',
@@ -49,7 +69,6 @@ export default function PetProfile({ pet, onEdit }) {
     },
     {
       title: 'Weight',
-      value: `${pet.weight} kg`,
       icon: <RiScales2Line />,
       type: 'number',
       name: 'weight',
@@ -57,14 +76,18 @@ export default function PetProfile({ pet, onEdit }) {
     },
     {
       title: 'Color',
-      value: pet.color,
       icon: <RiPaletteLine />,
       type: 'text',
       name: 'color',
     },
     {
+      title: 'Breed',
+      icon: <RiHonourLine />,
+      type: 'text',
+      name: 'breed',
+    },
+    {
       title: 'Hypoallergenic',
-      value: pet.hypoallergenic ? 'Yes' : 'No',
       icon: <RiCapsuleLine />,
       type: 'boolean',
       options: ['Yes', 'No'],
@@ -72,12 +95,11 @@ export default function PetProfile({ pet, onEdit }) {
     },
     {
       title: 'Diet',
-      value: pet.diet,
       icon: <RiRestaurantLine />,
       type: 'text',
       name: 'diet',
     },
-  ];
+  ].filter((item) => !!item.editOnly === !!onEdit || onEdit);
 
   const newValueStyle = 'border-2 border-primary';
 
@@ -94,80 +116,70 @@ export default function PetProfile({ pet, onEdit }) {
               onChange={onEdit}
               placeholder="Pet Name"
               className={pet.name !== petCompare.name && newValueStyle}
+              error={errors?.name?.message}
             />
           )}
         </h1>
       </div>
       <div className="text-2xl">
-        {`${pet.gender} ${pet.species.toLowerCase()}${
-          pet.dateOfBirth === petCompare.dateOfBirth ? `, ${pet.age}` : ''
-        }.`}
+        {!onEdit && `${pet.gender} ${pet.species?.toLowerCase()}, ${pet.age}.`}
+        {onEdit && (
+          <Input
+            type="text"
+            value={pet.tagline}
+            name="tagline"
+            onChange={onEdit}
+            placeholder="Tagline"
+            className={pet.tagline !== petCompare.tagline && newValueStyle}
+            error={errors?.tagline?.message}
+          />
+        )}
       </div>
       <div className="grid grid-cols-1 md:grid-cols-2 mt-6 border-t border-b py-3">
         <IconContext.Provider value={{ size: '1.5em' }}>
-          {onEdit && (
-            <div className="flex p-3">
-              <div className="w-12 flex items-center">
-                <RiCake2Line />
-              </div>
-              <div className="w-full">
-                <div className="font-semibold">Date of birth</div>
-                <div className="flex">
-                  <div
-                    className={`rounded-3xl border w-full p-3 ${
-                      pet.dateOfBirth !== petCompare.dateOfBirth &&
-                      newValueStyle
-                    }`}
-                  >
-                    <input
-                      type="date"
-                      id="birthday"
-                      value={
-                        pet.dateOfBirth &&
-                        new Date(pet.dateOfBirth)
-                          .toISOString()
-                          .replace(/T.*/, '')
-                      }
-                      name="birthday"
-                      onChange={(e) => onEdit({ dateOfBirth: e.target.value })}
-                    />
-                  </div>
-                </div>
-              </div>
-            </div>
-          )}
           {petTable.map(
             (field) =>
-              (onEdit || field.value) && (
+              (onEdit || pet[field.name] !== undefined) && (
                 <div key={field.title} className="flex p-3">
                   <div className="w-12 flex items-center">{field.icon}</div>
                   <div className="w-full">
                     <div className="font-semibold">{field.title}</div>
                     <div className="flex">
-                      {!onEdit && field.value}
-                      {onEdit && ['number', 'text'].includes(field.type) && (
-                        <Input
-                          value={pet[field.name]}
-                          name={field.name}
-                          onChange={onEdit}
-                          type={field.type}
-                          suffix={field.suffix}
-                          className={
-                            pet[field.name] !== petCompare[field.name] &&
-                            newValueStyle
-                          }
-                        />
-                      )}
+                      {!onEdit &&
+                        field.type !== 'boolean' &&
+                        `${pet[field.name]}
+                        ${field.suffix ? ` ${field.suffix}` : ''}`}
+                      {!onEdit &&
+                        field.type === 'boolean' &&
+                        `${pet[field.name] ? 'Yes' : 'No'}`}
+
+                      {onEdit &&
+                        ['number', 'text', 'date'].includes(field.type) && (
+                          <Input
+                            value={pet[field.name]}
+                            name={field.name}
+                            onChange={onEdit}
+                            type={field.type}
+                            suffix={field.suffix}
+                            className={
+                              pet[field.name] !== petCompare[field.name] &&
+                              newValueStyle
+                            }
+                            error={errors?.[field.name]?.message}
+                          />
+                        )}
                       {onEdit && field.type === 'selection' && (
                         <>
                           <Options
                             value={pet[field.name]}
                             name={field.name}
+                            label={field.title}
                             fullwidth
                             className={
                               pet[field.name] !== petCompare[field.name] &&
                               newValueStyle
                             }
+                            error={errors?.[field.name]?.message}
                           >
                             {field.options.map((option, i) => (
                               <label
@@ -181,7 +193,7 @@ export default function PetProfile({ pet, onEdit }) {
                                   id={option}
                                   name={field.name}
                                   type="radio"
-                                  value={field.value}
+                                  value={pet[field.name]}
                                   className="hidden pointer-events-none"
                                   checked={pet[field.name] === option}
                                   onChange={() =>
@@ -205,6 +217,7 @@ export default function PetProfile({ pet, onEdit }) {
                               pet[field.name] !== petCompare[field.name] &&
                               newValueStyle
                             }
+                            error={errors?.[field.name]?.message}
                           >
                             <label
                               htmlFor="yes"
@@ -257,7 +270,8 @@ export default function PetProfile({ pet, onEdit }) {
             name="bio"
             onChange={onEdit}
             className={pet.bio !== petCompare.bio && newValueStyle}
-          ></Input>
+            error={errors?.bio?.message}
+          />
         )}
       </div>
     </>

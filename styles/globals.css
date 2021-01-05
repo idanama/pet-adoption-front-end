@@ -72,6 +72,9 @@
   .text-shadow {
     text-shadow: 0 5px 10px rgba(0, 0, 0, 0.3);
   }
+  .min-h-30v {
+    min-height: 30vh;
+  }
 }
 
 /* Chrome, Safari, Edge, Opera */
