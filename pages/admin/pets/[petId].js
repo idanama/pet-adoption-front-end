@@ -115,8 +115,8 @@ export default function EditPet() {
             <div className="md:px-5 w-1/3">
               <div className="sticky top-1/3 py-5">
                 <div className=" p-5 border rounded-xl shadow-xl grid grid-cols-1 gap-2 min-h-">
-                  <Button primary onClick={() => saveChanges()}>Save changes</Button>
-                  <Button onClick={() => resetChanges()}>Reset changes</Button>
+                  <Button primary submit onClick={saveChanges}>Save changes</Button>
+                  <Button onClick={resetChanges}>Reset changes</Button>
                 </div>
               </div>
             </div>
