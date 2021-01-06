@@ -15,7 +15,7 @@ export default function Login({ close }) {
 
   return (
     <Modal title="Login" close={close}>
-      <form className="flex flex-col">
+      <form action="/api/login" method="post" className="flex flex-col">
         <Input
           type="email"
           name="email"

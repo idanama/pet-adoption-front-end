@@ -36,7 +36,7 @@ export default function Register({ close }) {
 
   return (
     <Modal title="Register" close={close}>
-      <form className="flex flex-col">
+      <form action="/api/signup" method="post" className="flex flex-col">
         <Input
           type="email"
           name="email"
