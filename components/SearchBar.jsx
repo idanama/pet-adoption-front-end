@@ -1,12 +1,8 @@
 import { useRef, useState, useEffect } from 'react';
-import {
-  RiEmpathizeLine,
-  RiHandHeartLine,
-  RiHeartLine,
-  RiSearchLine,
-} from 'react-icons/ri';
+import { RiEmpathizeLine, RiHandHeartLine, RiHeartLine, RiSearchLine } from 'react-icons/ri';
 import Selection from './base/Selection';
 import { useRouter } from 'next/router';
+import removeEmpty from '../utils/removeEmpty';
 
 export default function SearchBar({ updateNavSize }) {
   const router = useRouter();
@@ -37,7 +33,7 @@ export default function SearchBar({ updateNavSize }) {
 
   const searchBarPosition = {
     all: `justify-self-center absolute left-1/2 transform -translate-x-1/2 transition-all duration-300`,
-    static: `max-w-xs w-full mt-0 overflow-hidden`,
+    static: `max-w-xs w-full mt-0`,
     active: `max-w-xl w-full mt-5 translate-y-full`,
   };
 
@@ -77,9 +73,13 @@ export default function SearchBar({ updateNavSize }) {
   }
 
   const pushRoute = () => {
+    let query = removeEmpty(form);
+    if (!query.animal && !query.relationship) {
+      query.animal = 'any';
+    }
     router.push({
       pathname: '/search',
-      query: { animal: form.animal, relationship: form.relationship },
+      query,
     });
   };
 
@@ -115,7 +115,7 @@ export default function SearchBar({ updateNavSize }) {
         ${searchBarStyle.all} 
         ${searchBarStyle[searchBarState()]} ${selection ? 'bg-gray-200' : ''}
         `}
-        action="/search"
+        action="/pet"
         method="get"
         ref={formRef}
       >
@@ -148,10 +148,7 @@ export default function SearchBar({ updateNavSize }) {
                   onChange={handleForm}
                   checked={form.animal === 'any'}
                 />
-                <img
-                  src="\generic\panda-square.png"
-                  className="rounded-lg h-10 mr-5"
-                />
+                <img src="\generic\panda-square.png" className="rounded-lg h-10 mr-5" />
                 Any
               </label>
               <label
@@ -167,10 +164,7 @@ export default function SearchBar({ updateNavSize }) {
                   onChange={handleForm}
                   checked={form.animal === 'dog'}
                 />
-                <img
-                  src="\generic\dog-square.png"
-                  className="rounded-lg h-10 mr-5"
-                />
+                <img src="\generic\dog-square.png" className="rounded-lg h-10 mr-5" />
                 Dog
               </label>
               <label
@@ -186,10 +180,7 @@ export default function SearchBar({ updateNavSize }) {
                   onChange={handleForm}
                   checked={form.animal === 'cat'}
                 />
-                <img
-                  src="\generic\cat-square.png"
-                  className="rounded-lg h-10 mr-5"
-                />
+                <img src="\generic\cat-square.png" className="rounded-lg h-10 mr-5" />
                 Cat
               </label>
             </Selection>

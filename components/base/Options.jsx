@@ -1,4 +1,5 @@
 import { useState, useRef } from 'react';
+import Button from './Button';
 
 export default function Options({
   label,
@@ -7,14 +8,16 @@ export default function Options({
   fullwidth,
   className,
   error,
+  confirm,
+  reset,
+  compact,
 }) {
   const [open, setOpen] = useState(false);
   const selectorRef = useRef(null);
 
   const selectionButtonStyle = {
-    all: `relative bg-white rounded-full cursor-pointer`,
+    all: `relative bg-white rounded-full cursor-pointer border ${compact ? 'p-1' : 'p-3'}`,
     open: 'border-black',
-    regular: `border py-3 px-3 ${error ? 'border-error' : ''}`,
   };
 
   const openButtonStyle =
@@ -25,19 +28,11 @@ export default function Options({
       <div
         className={`${selectionButtonStyle.all} ${className}
         ${open ? selectionButtonStyle.open : 'hover:bg-gray-100'}
-        ${selectionButtonStyle.regular}
+        ${error ? 'border-error' : ''}
         `}
-        onClick={() => {
-          setOpen(!open);
-        }}
+        onClick={() => setOpen(!open)}
         tabIndex="0"
-        onBlur={(e) => {
-          console.log('here');
-          setTimeout(() => {
-            setOpen(false);
-          }, 100);
-        }}
-        onBlur={() => setOpen(false)}
+        onBlur={() => !confirm && setOpen(false)}
         ref={selectorRef}
       >
         {value === '' && <div className="text-gray-500">{label}</div>}
@@ -47,12 +42,35 @@ export default function Options({
             !open && 'hidden'
           } absolute left-0 -bottom-0 transform translate-y-full z-10 w-min`}
         >
-          <div className={openButtonStyle} onClick={() => setOpen(false)}>
+          <div
+            className={openButtonStyle}
+            onClick={(e) => (!confirm ? setOpen(false) : e.stopPropagation())}
+          >
             {children}
+            <div className="flex justify-between p-4">
+              <Button
+                white
+                onClick={() => {
+                  reset();
+                  setOpen(false);
+                }}
+              >
+                Clear
+              </Button>
+              <Button
+                primary
+                onClick={() => {
+                  confirm();
+                  setOpen(false);
+                }}
+              >
+                Save
+              </Button>
+            </div>
           </div>
         </div>
       </div>
-      {error && <div className="ml-3 mt-1 text-error">{error}</div>}
+      {}
     </div>
   );
 }
