@@ -21,10 +21,7 @@ export default function Register({ close }) {
   const [error, setError] = useState('');
 
   useEffect(() => {
-    if (
-      form.passwordConfirm.length > 0 &&
-      form.password !== form.passwordConfirm
-    ) {
+    if (form.passwordConfirm.length > 0 && form.password !== form.passwordConfirm) {
       setError((e) => ({
         ...e,
         passwordConfirm: 'Passwords do not match',
@@ -37,13 +34,7 @@ export default function Register({ close }) {
   return (
     <Modal title="Register" close={close}>
       <form action="/api/signup" method="post" className="flex flex-col">
-        <Input
-          type="email"
-          name="email"
-          label="Email"
-          value={form.email}
-          onChange={handleEdit}
-        />
+        <Input type="email" name="email" label="Email" value={form.email} onChange={handleEdit} />
         <Input
           type="password"
           name="password"
