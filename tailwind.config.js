@@ -2,7 +2,10 @@ const defaultTheme = require('tailwindcss/defaultTheme');
 const colors = require('tailwindcss/colors');
 
 module.exports = {
-  purge: ['./pages/*.js', './pages/*.jsx', './pages/**/*.jsx', './pages/**/**/*.jsx', './components/*.jsx', './components/**/*.jsx'],
+  purge: [
+    './pages/**/*.{js,jsx,ts,tsx}',
+    './components/**/*.{js,jsx,ts,tsx}',
+  ],
   darkMode: false, // or 'media' or 'class'
   theme: {
     gradientColorStops: (theme) => ({
