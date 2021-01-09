@@ -62,9 +62,12 @@ export default function Footer({ admin, signedIn }) {
           )}
         </div>
         <div className="mt-12 pt-3 border-t text-center">
-          SPCA
-          {` - ${new Date().getFullYear()} - `}
-          All rights reserved to their proper owners
+          <div>
+            SPCA
+            {` - ${new Date().getFullYear()} - `}
+            All rights reserved to their proper owners
+          </div>
+          <div>Created with React (Next.js) and Tailwindcss, by Idan Amati</div>
         </div>
       </footer>
     </div>
