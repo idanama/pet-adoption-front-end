@@ -1,6 +1,6 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useState, useCallback } from 'react';
 import { useRouter } from 'next/router';
-import { RiCloseLine } from 'react-icons/ri';
+import { RiLoader4Line } from 'react-icons/ri';
 import api from '../utils/api';
 import PetCard from '../components/PetCard';
 import Options from '../components/base/Options';
@@ -10,6 +10,7 @@ import removeEmpty from '../utils/removeEmpty';
 
 export default function Search() {
   const [petResults, setPetResults] = useState([]);
+  const [pets, setPets] = useState([]);
   const [filter, setFilter] = useState({
     maxh: '',
     minh: '',
@@ -24,6 +25,7 @@ export default function Search() {
     minw: '',
     name: '',
   });
+  const [loading, setLoading] = useState(false);
 
   const { query, push } = useRouter();
   let { animal, relationship } = query;
@@ -35,16 +37,41 @@ export default function Search() {
   }
 
   const updateResults = async (queryParams) => {
-    try {
-      const urlParams = new URLSearchParams();
-      Object.keys(queryParams).forEach((key) => {
-        urlParams.append(key, queryParams[key]);
-      });
-      const { res } = await api.getPets(`?${urlParams.toString()}`);
+    const urlParams = new URLSearchParams();
+    Object.keys(queryParams).forEach((key) => {
+      urlParams.append(key, queryParams[key]);
+    });
+    const { res, error } = await api.search(`?${urlParams.toString()}`);
+    if (!error) {
       setPetResults(res);
-    } catch (e) {
-      console.error(e);
+      setPets(res.docs);
+    } else {
+      console.error(error);
     }
+  };
+
+  const nextPage = async () => {
+    if (loading || petResults.hasNextPage === false) {
+      return;
+    }
+    setLoading(true);
+    const urlParams = new URLSearchParams();
+    if (query) {
+      Object.keys(query).forEach((key) => {
+        urlParams.append(key, query[key]);
+      });
+    }
+    urlParams.append('page', petResults.nextPage);
+    console.log(urlParams);
+    const { res, error } = await api.search(`?${urlParams.toString()}`);
+    console.log(res);
+    if (!error) {
+      setPetResults(res);
+      setPets([...pets, ...res.docs]);
+    } else {
+      console.error(error);
+    }
+    setLoading(false);
   };
 
   const updateQuery = () => {
@@ -62,7 +89,6 @@ export default function Search() {
   const handleConfirm = (keys, reset = false) => {
     const confirmed = Object.fromEntries(keys.map((key) => [key, preconfirmedFilter[key]]));
     const confirmedReset = Object.fromEntries(keys.map((key) => [key, '']));
-    console.log(confirmed);
     if (!reset) {
       setFilter({
         ...filter,
@@ -85,6 +111,11 @@ export default function Search() {
   return (
     <>
       <div className="container-max">
+        {petResults && (
+          <h5
+            className={petResults.totalDocs > 0 ? '' : 'invisible'}
+          >{`${petResults.totalDocs} pets`}</h5>
+        )}
         <h1 className="text-3xl">
           <span className="capitalize">{`${animal}s to ${relationship}`}</span>
         </h1>
@@ -182,10 +213,15 @@ export default function Search() {
           </div>
         </section>
         <section className="mt-6 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-          {petResults.map((pet) => (
+          {pets?.map((pet) => (
             <PetCard key={`saved-${pet._id}`} pet={pet} />
           ))}
         </section>
+        <div className="flex flex-col items-center m-4">
+          {pets?.length === 0 && <div>No Pets Found</div>}
+          {petResults.hasNextPage && !loading && <Button onClick={nextPage}>Load more</Button>}
+          <RiLoader4Line className={`text-2xl animate-spin ${loading ? '' : 'hidden'}`} />
+        </div>
       </div>
     </>
   );
