@@ -104,7 +104,7 @@ export default function Profile() {
             label="Phone Number"
             name="phone"
             value={formUser.phone}
-            type="email"
+            type="number"
             onChange={handleEdit}
             error={errors.phone?.message}
           />
