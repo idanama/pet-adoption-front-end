@@ -114,7 +114,7 @@ export default function PetPage() {
         <div className="md:px-5 w-1/3">
           <div className="sticky top-1/3 py-5">
             <div className=" p-5 border rounded-xl shadow-xl grid grid-cols-1 gap-2 min-h-">
-              { !loading && pet.owner === null && (
+              { !loading && !pet.owner && (
                 <>
                   <div className="text-xl">
                     {`Want to have ${pet.name}?`}
@@ -133,7 +133,7 @@ export default function PetPage() {
                     )}
                 </>
               )}
-              {!loading && pet.owner === user._id && (
+              {!loading && pet.owner && pet.owner === user._id && (
                 <>
                   <div className="text-xl">{`You already have ${pet.name}, isn't ${pet.gender === 'Male' ? 'he' : 'she'} cute? 😍`}</div>
                   <div>Help up save more animals!</div>
@@ -163,7 +163,7 @@ export default function PetPage() {
                   )}
                 </>
               )}
-              {!loading && pet.owner !== user._id && pet.status === 'Fostered' && (
+              {!loading && pet.owner && pet.owner !== user._id && pet.status === 'Fostered' && (
                 <>
                   <div className="text-xl">{`${pet.name} is fostered, but that's only temporary, want to adopt ${pet.gender === 'Male' ? 'him' : 'her'}?`}</div>
                   <Button primary xl onClick={() => changePetOwnership('adopt')}>
@@ -174,7 +174,7 @@ export default function PetPage() {
                   <Button primary={pet.status === 'Adopted'} link="\donate">Donate to spca</Button>
                 </>
               )}
-              {!loading && pet.status === 'Adopted' && (
+              {!loading && pet.status === 'Adopted' && pet.owner !== user._id && (
                 <>
                   <div>{`${pet.name} is already adopted.`}</div>
                   <Button primary link={`\\search?animal=${pet.species?.toLowerCase()}`}>{`Find another ${pet.species?.toLowerCase()}`}</Button>
