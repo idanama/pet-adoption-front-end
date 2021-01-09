@@ -1,7 +1,10 @@
 import { useEffect, useState, useCallback } from 'react';
 import { useRouter } from 'next/router';
+import Head from 'next/head';
 import { RiLoader4Line } from 'react-icons/ri';
+
 import api from '../utils/api';
+
 import PetCard from '../components/PetCard';
 import Options from '../components/base/Options';
 import Input from '../components/base/Input';
@@ -110,6 +113,9 @@ export default function Search() {
 
   return (
     <>
+      <Head>
+        <title>SPCA - Search</title>
+      </Head>
       <div className="container-max">
         {petResults && (
           <h5

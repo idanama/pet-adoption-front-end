@@ -1,5 +1,6 @@
-import { useRouter } from 'next/router';
 import { useEffect, useState, useContext } from 'react';
+import { useRouter } from 'next/router';
+import Head from 'next/head';
 import {
   RiHeartLine,
   RiHeartFill,
@@ -82,39 +83,43 @@ export default function PetPage() {
   }, [user, pet]);
 
   return (
-    <div className="container-max">
-      <div className="relative">
-        <img src={pet.pictures && pet.pictures[0]} alt={pet.name} className="object-cover h-full w-full object-center max-h-60v rounded-2xl" />
-        {loggedIn && (
-        <div className="absolute bottom-4 right-6">
-          <Button
-            transparent
-            className="flex flex-col items-center w-12 h-12 text-4xl"
-            onClick={() => toggleLikePet()}
-          >
-            {!saved && (
-            <RiHeartLine className="text-white" />
-            )}
-            {saved && (
-            <RiHeartFill className="text-primary" />
-            )}
-          </Button>
+    <>
+      <Head>
+        <title>{`SPCA - ${pet.name ? pet.name : ''}`}</title>
+      </Head>
+      <div className="container-max">
+        <div className="relative">
+          <img src={pet.pictures && pet.pictures[0]} alt={pet.name} className="object-cover h-full w-full object-center max-h-60v rounded-2xl" />
+          {loggedIn && (
+          <div className="absolute bottom-4 right-6">
+            <Button
+              transparent
+              className="flex flex-col items-center w-12 h-12 text-4xl"
+              onClick={() => toggleLikePet()}
+            >
+              {!saved && (
+              <RiHeartLine className="text-white" />
+              )}
+              {saved && (
+              <RiHeartFill className="text-primary" />
+              )}
+            </Button>
+          </div>
+          )}
         </div>
-        )}
-      </div>
-      <div className="flex">
-        <div className="w-2/3 m-4">
+        <div className="flex">
+          <div className="w-2/3 m-4">
 
-          {
+            {
             !loading && (
               <PetProfile pet={pet} />
             )
           }
-        </div>
-        <div className="md:px-5 w-1/3">
-          <div className="sticky top-1/3 py-5">
-            <div className=" p-5 border rounded-xl shadow-xl grid grid-cols-1 gap-2 min-h-">
-              { !loading && !pet.owner && (
+          </div>
+          <div className="md:px-5 w-1/3">
+            <div className="sticky top-1/3 py-5">
+              <div className=" p-5 border rounded-xl shadow-xl grid grid-cols-1 gap-2 min-h-">
+                { !loading && !pet.owner && (
                 <>
                   <div className="text-xl">
                     {`Want to have ${pet.name}?`}
@@ -132,8 +137,8 @@ export default function PetPage() {
                     </div>
                     )}
                 </>
-              )}
-              {!loading && pet.owner && pet.owner === user._id && (
+                )}
+                {!loading && pet.owner && pet.owner === user._id && (
                 <>
                   <div className="text-xl">{`You already have ${pet.name}, isn't ${pet.gender === 'Male' ? 'he' : 'she'} cute? 😍`}</div>
                   <div>Help up save more animals!</div>
@@ -162,8 +167,8 @@ export default function PetPage() {
                     </Modal>
                   )}
                 </>
-              )}
-              {!loading && pet.owner && pet.owner !== user._id && pet.status === 'Fostered' && (
+                )}
+                {!loading && pet.owner && pet.owner !== user._id && pet.status === 'Fostered' && (
                 <>
                   <div className="text-xl">{`${pet.name} is fostered, but that's only temporary, want to adopt ${pet.gender === 'Male' ? 'him' : 'her'}?`}</div>
                   <Button primary xl onClick={() => changePetOwnership('adopt')}>
@@ -173,19 +178,20 @@ export default function PetPage() {
                   </Button>
                   <Button primary={pet.status === 'Adopted'} link="\donate">Donate to spca</Button>
                 </>
-              )}
-              {!loading && pet.status === 'Adopted' && pet.owner !== user._id && (
+                )}
+                {!loading && pet.status === 'Adopted' && pet.owner !== user._id && (
                 <>
                   <div>{`${pet.name} is already adopted.`}</div>
                   <Button primary link={`\\search?animal=${pet.species?.toLowerCase()}`}>{`Find another ${pet.species?.toLowerCase()}`}</Button>
                 </>
-              )}
+                )}
+              </div>
             </div>
           </div>
         </div>
+        {modal === 'register' && (<Register close={() => setModal('')} />)}
+        {modal === 'login' && (<Login close={() => setModal('')} />)}
       </div>
-      {modal === 'register' && (<Register close={() => setModal('')} />)}
-      {modal === 'login' && (<Login close={() => setModal('')} />)}
-    </div>
+    </>
   );
 }

@@ -1,4 +1,5 @@
 import { useContext, useEffect, useState } from 'react';
+import Head from 'next/head';
 
 import api from '../utils/api';
 
@@ -58,66 +59,76 @@ export default function Profile() {
 
   if (errors?.page) {
     return (
-      <div className="container-max">
-        <h1 className="text-3xl">Profile</h1>
-        <p>{errors.page}</p>
-      </div>
+      <>
+        <Head>
+          <title>SPCA - My Profile</title>
+        </Head>
+        <div className="container-max">
+          <h1 className="text-3xl">Profile</h1>
+          <p>{errors.page}</p>
+        </div>
+      </>
     );
   }
 
   return (
-    <div className="container-max">
-      <h1 className="text-3xl">Profile</h1>
-      <form
-        action={`/api/update/${user._id}`}
-        method="put"
-        className="flex pt-10 flex-col max-w-lg"
-        autoComplete="off"
-      >
-        <Input
-          label="First Name"
-          name="fName"
-          value={formUser.fName}
-          type="text"
-          onChange={handleEdit}
-          error={errors.fName?.message}
-        />
-        <Input
-          label="Last Name"
-          name="lName"
-          value={formUser.lName}
-          type="text"
-          onChange={handleEdit}
-          error={errors.lName?.message}
-        />
-        <Input
-          label="Phone Number"
-          name="phone"
-          value={formUser.phone}
-          type="email"
-          onChange={handleEdit}
-          error={errors.phone?.message}
-        />
-        <Input
-          label="Email"
-          name="email"
-          value={formUser.email}
-          type="email"
-          onChange={handleEdit}
-          error={errors.email?.message}
-        />
-        <Input
-          label="Bio"
-          name="bio"
-          value={formUser.bio}
-          type="textarea"
-          onChange={handleEdit}
-          error={errors.bio?.message}
-        />
-        <Button submit xl className="max-w-min" onClick={saveChanges}>
-          Save
-        </Button>
-      </form>
-    </div>
+    <>
+      <Head>
+        <title>SPCA - My Profile</title>
+      </Head>
+      <div className="container-max">
+        <h1 className="text-3xl">Profile</h1>
+        <form
+          action={`/api/update/${user._id}`}
+          method="put"
+          className="flex pt-10 flex-col max-w-lg"
+          autoComplete="off"
+        >
+          <Input
+            label="First Name"
+            name="fName"
+            value={formUser.fName}
+            type="text"
+            onChange={handleEdit}
+            error={errors.fName?.message}
+          />
+          <Input
+            label="Last Name"
+            name="lName"
+            value={formUser.lName}
+            type="text"
+            onChange={handleEdit}
+            error={errors.lName?.message}
+          />
+          <Input
+            label="Phone Number"
+            name="phone"
+            value={formUser.phone}
+            type="email"
+            onChange={handleEdit}
+            error={errors.phone?.message}
+          />
+          <Input
+            label="Email"
+            name="email"
+            value={formUser.email}
+            type="email"
+            onChange={handleEdit}
+            error={errors.email?.message}
+          />
+          <Input
+            label="Bio"
+            name="bio"
+            value={formUser.bio}
+            type="textarea"
+            onChange={handleEdit}
+            error={errors.bio?.message}
+          />
+          <Button submit xl className="max-w-min" onClick={saveChanges}>
+            Save
+          </Button>
+        </form>
+      </div>
+    </>
   );
 }
