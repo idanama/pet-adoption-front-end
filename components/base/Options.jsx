@@ -47,26 +47,28 @@ export default function Options({
             onClick={(e) => (!confirm ? setOpen(false) : e.stopPropagation())}
           >
             {children}
-            <div className="flex justify-between p-4">
-              <Button
-                white
-                onClick={() => {
-                  reset();
-                  setOpen(false);
-                }}
-              >
-                Clear
-              </Button>
-              <Button
-                primary
-                onClick={() => {
-                  confirm();
-                  setOpen(false);
-                }}
-              >
-                Save
-              </Button>
-            </div>
+            {reset && (
+              <div className="flex justify-between p-4">
+                <Button
+                  white
+                  onClick={() => {
+                    reset();
+                    setOpen(false);
+                  }}
+                >
+                  Clear
+                </Button>
+                <Button
+                  primary
+                  onClick={() => {
+                    confirm();
+                    setOpen(false);
+                  }}
+                >
+                  Save
+                </Button>
+              </div>
+            )}
           </div>
         </div>
       </div>
