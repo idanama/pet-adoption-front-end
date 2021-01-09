@@ -66,6 +66,7 @@ export default function Home() {
         <Hero img={heroPet.img} title={heroPet.title} text={heroPet.text} action={heroPet.action} to={heroPet.to} />
       </main>
       <section className="container-max">
+          <h2 className="text-2xl pb-4">Latest Additions</h2>
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-3">
             {recentPets?.length > 0 && recentPets.map(pet => (
               <Link href={`/pet/${pet.name}`} key={pet.id}>

@@ -7,6 +7,7 @@ import { RiUpload2Line } from 'react-icons/ri';
 import Button from '../../../components/base/Button';
 import PetProfile from '../../../components/PetProfile';
 import api from '../../../utils/api';
+import validateFields from '../../../utils/validator';
 
 import userContext from '../../../context/userContext';
 
@@ -37,6 +38,7 @@ export default function EditPet() {
 
   const handleEdit = (edited) => {
     setPet({ ...pet, ...edited });
+    setErrors({ ...errors, ...validateFields(edited) });
   };
 
   const saveChanges = async () => {
@@ -94,10 +96,12 @@ export default function EditPet() {
                   name="picture"
                   id="picture"
                   className="opacity-0 absolute -z-10 w-full h-full"
-                  onChange={(e) => setPicture({
-                    preview: URL.createObjectURL(e.target.files[0]),
-                    file: e.target.files[0],
-                  })}
+                  onChange={(e) =>
+                    setPicture({
+                      preview: URL.createObjectURL(e.target.files[0]),
+                      file: e.target.files[0],
+                    })
+                  }
                 />
                 {!picture.preview && !pet.pictures[0] && (
                   <div className="h-full w-full cursor-pointer flex items-center justify-around">

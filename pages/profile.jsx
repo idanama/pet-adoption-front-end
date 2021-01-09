@@ -6,6 +6,8 @@ import api from '../utils/api';
 import Button from '../components/base/Button';
 import Input from '../components/base/Input';
 import userContext from '../context/userContext';
+import validateFields from '../utils/validator';
+import removeEmpty from '../utils/removeEmpty';
 
 export default function Profile() {
   const { user } = useContext(userContext);
@@ -22,6 +24,7 @@ export default function Profile() {
 
   const handleEdit = (edited) => {
     updateFormUser({ ...formUser, ...edited });
+    setErrors({ ...errors, ...validateFields(edited) });
   };
 
   const getUser = async (userId) => {
@@ -36,18 +39,15 @@ export default function Profile() {
   };
 
   const saveChanges = async () => {
-    const userToUpdate = {};
-    Object.keys(formUser).forEach((key) => {
-      if (formUser[key]) {
-        userToUpdate[key] = formUser[key];
+    if (Object.values(errors).every((item) => item === null)) {
+      const userToUpdate = removeEmpty(formUser);
+      const { res, error } = await api.updateUser(user._id, userToUpdate);
+      if (!error) {
+        setErrors({});
+        updateFormUser({ ...formUser, res });
+      } else {
+        setErrors(error.errors);
       }
-    });
-    const { res, error } = await api.updateUser(user._id, userToUpdate);
-    if (!error) {
-      setErrors({});
-      updateFormUser({ ...formUser, res });
-    } else {
-      setErrors(error.errors);
     }
   };
 
@@ -90,7 +90,7 @@ export default function Profile() {
             value={formUser.fName}
             type="text"
             onChange={handleEdit}
-            error={errors.fName?.message}
+            error={errors.fName?.message || errors.fName}
           />
           <Input
             label="Last Name"
@@ -98,7 +98,7 @@ export default function Profile() {
             value={formUser.lName}
             type="text"
             onChange={handleEdit}
-            error={errors.lName?.message}
+            error={errors.lName?.message || errors.lName}
           />
           <Input
             label="Phone Number"
@@ -106,7 +106,7 @@ export default function Profile() {
             value={formUser.phone}
             type="number"
             onChange={handleEdit}
-            error={errors.phone?.message}
+            error={errors.phone?.message || errors.phone}
           />
           <Input
             label="Email"
@@ -114,7 +114,7 @@ export default function Profile() {
             value={formUser.email}
             type="email"
             onChange={handleEdit}
-            error={errors.email?.message}
+            error={errors.email?.message || errors.email}
           />
           <Input
             label="Bio"

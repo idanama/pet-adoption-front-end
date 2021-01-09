@@ -3,12 +3,15 @@ import Modal from './base/Modal';
 import Input from './base/Input';
 import Button from './base/Button';
 import userContext from '../context/userContext';
+import validateFields from '../utils/validator';
 
 export default function Login({ close }) {
   const [form, setForm] = useState({ email: '', password: '' });
+  const [errors, setErrors] = useState({});
 
   const handleEdit = (edited) => {
     setForm({ ...form, ...edited });
+    setErrors({ ...errors, ...validateFields(edited) });
   };
 
   const { login } = useContext(userContext);
@@ -21,6 +24,7 @@ export default function Login({ close }) {
           name="email"
           label="Email"
           value={form.email}
+          error={errors.email}
           onChange={handleEdit}
           required
         />
@@ -37,8 +41,10 @@ export default function Login({ close }) {
           primary
           xl
           onClick={async () => {
-            await login(form.email, form.password);
-            close();
+            if (Object.values(errors).every((item) => item === null)) {
+              await login(form.email, form.password);
+              close();
+            }
           }}
         >
           Login

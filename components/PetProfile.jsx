@@ -116,7 +116,7 @@ export default function PetProfile({ pet, onEdit, errors }) {
               onChange={onEdit}
               placeholder="Pet Name"
               className={pet.name !== petCompare.name && newValueStyle}
-              error={errors?.name?.message}
+              error={errors?.name?.message || errors?.name}
             />
           )}
         </h1>
@@ -131,7 +131,7 @@ export default function PetProfile({ pet, onEdit, errors }) {
             onChange={onEdit}
             placeholder="Tagline"
             className={pet.tagline !== petCompare.tagline && newValueStyle}
-            error={errors?.tagline?.message}
+            error={errors?.tagline?.message || errors?.tagline}
           />
         )}
       </div>
@@ -149,25 +149,19 @@ export default function PetProfile({ pet, onEdit, errors }) {
                         field.type !== 'boolean' &&
                         `${pet[field.name]}
                         ${field.suffix ? ` ${field.suffix}` : ''}`}
-                      {!onEdit &&
-                        field.type === 'boolean' &&
-                        `${pet[field.name] ? 'Yes' : 'No'}`}
+                      {!onEdit && field.type === 'boolean' && `${pet[field.name] ? 'Yes' : 'No'}`}
 
-                      {onEdit &&
-                        ['number', 'text', 'date'].includes(field.type) && (
-                          <Input
-                            value={pet[field.name]}
-                            name={field.name}
-                            onChange={onEdit}
-                            type={field.type}
-                            suffix={field.suffix}
-                            className={
-                              pet[field.name] !== petCompare[field.name] &&
-                              newValueStyle
-                            }
-                            error={errors?.[field.name]?.message}
-                          />
-                        )}
+                      {onEdit && ['number', 'text', 'date'].includes(field.type) && (
+                        <Input
+                          value={pet[field.name]}
+                          name={field.name}
+                          onChange={onEdit}
+                          type={field.type}
+                          suffix={field.suffix}
+                          className={pet[field.name] !== petCompare[field.name] && newValueStyle}
+                          error={errors?.[field.name]?.message || errors?.[field.name]}
+                        />
+                      )}
                       {onEdit && field.type === 'selection' && (
                         <>
                           <Options
@@ -175,11 +169,8 @@ export default function PetProfile({ pet, onEdit, errors }) {
                             name={field.name}
                             label={field.title}
                             fullwidth
-                            className={
-                              pet[field.name] !== petCompare[field.name] &&
-                              newValueStyle
-                            }
-                            error={errors?.[field.name]?.message}
+                            className={pet[field.name] !== petCompare[field.name] && newValueStyle}
+                            error={errors?.[field.name]?.message || errors?.[field.name]}
                           >
                             {field.options.map((option, i) => (
                               <label
@@ -196,9 +187,7 @@ export default function PetProfile({ pet, onEdit, errors }) {
                                   value={pet[field.name]}
                                   className="hidden pointer-events-none"
                                   checked={pet[field.name] === option}
-                                  onChange={() =>
-                                    onEdit({ [field.name]: option })
-                                  }
+                                  onChange={() => onEdit({ [field.name]: option })}
                                 />
                                 {option}
                               </label>
@@ -213,11 +202,8 @@ export default function PetProfile({ pet, onEdit, errors }) {
                             name={field.name}
                             onChange={onEdit}
                             fullwidth
-                            className={
-                              pet[field.name] !== petCompare[field.name] &&
-                              newValueStyle
-                            }
-                            error={errors?.[field.name]?.message}
+                            className={pet[field.name] !== petCompare[field.name] && newValueStyle}
+                            error={errors?.[field.name]?.message || errors?.[field.name]}
                           >
                             <label
                               htmlFor="yes"
@@ -270,7 +256,7 @@ export default function PetProfile({ pet, onEdit, errors }) {
             name="bio"
             onChange={onEdit}
             className={pet.bio !== petCompare.bio && newValueStyle}
-            error={errors?.bio?.message}
+            error={errors?.bio?.message || errors?.bio}
           />
         )}
       </div>
