@@ -1,9 +1,11 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useState, useContext } from 'react';
 import Modal from './base/Modal';
 import Input from './base/Input';
 import Button from './base/Button';
-import api from '../utils/api';
+import userContext from '../context/userContext';
 import validateFields from '../utils/validator';
+import removeEmpty from '../utils/removeEmpty';
+import api from '../utils/api';
 
 export default function Register({ close }) {
   const [form, setForm] = useState({
@@ -16,9 +18,25 @@ export default function Register({ close }) {
   });
   const [errors, setErrors] = useState({});
 
+  const { updateUser } = useContext(userContext);
+
   const handleEdit = (edited) => {
     setForm({ ...form, ...edited });
     setErrors({ ...errors, ...validateFields(edited) });
+  };
+
+  const signup = async (userInfo) => {
+    try {
+      const { res, error } = await api.signup(userInfo);
+      if (error) {
+        setErrors({ ...errors, ...error });
+      } else {
+        updateUser(res.user);
+        close();
+      }
+    } catch (e) {
+      console.error(e);
+    }
   };
 
   useEffect(() => {
@@ -94,8 +112,7 @@ export default function Register({ close }) {
           xl
           onClick={async () => {
             if (Object.values(errors).every((item) => item === null)) {
-              await api.signup(form);
-              close();
+              await signup(removeEmpty(form));
             }
           }}
         >

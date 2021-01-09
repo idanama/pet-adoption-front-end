@@ -12,10 +12,16 @@ function MyApp({ Component, pageProps }) {
   const [loadingUser, setLoadingUser] = useState(true);
   const [userState, setUser] = useState({});
 
+  const updateUser = (userInfo) => {
+    setLoadingUser(true);
+    setUser(userInfo);
+    setLoadingUser(false);
+  };
+
   const signup = async (userInfo) => {
     try {
       setLoadingUser(true);
-      const { user } = (await api.signup(userInfo)).res;
+      const { user, error } = (await api.signup(userInfo)).res;
       setUser(user);
     } catch (e) {
       console.error(e);
@@ -94,6 +100,7 @@ function MyApp({ Component, pageProps }) {
         login,
         logout,
         signup,
+        updateUser,
         user: userState,
         loading: loadingUser,
         setSavedPet,
