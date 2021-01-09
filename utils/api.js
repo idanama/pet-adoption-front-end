@@ -24,6 +24,7 @@ const addPet = (petData) => fetchJson(`${baseUrl}/pet`, { method: 'POST', body: 
 const getPet = (petId) => fetchJson(`${baseUrl}/pet/${petId}`);
 const getPetByName = (petName) => fetchJson(`${baseUrl}/pet/name/${petName}`);
 const getRandomPet = () => fetchJson(`${baseUrl}/pet/random`);
+const getRecentPet = () => fetchJson(`${baseUrl}/pet/recent`);
 const getPets = () => fetchJson(`${baseUrl}/pet`);
 const search = (query) => fetchJson(`${baseUrl}/search${query || ''}`);
 const editPet = (petId, petData) => fetchJson(`${baseUrl}/pet/${petId}`, { method: 'PUT', body: petData }, true);
@@ -37,6 +38,8 @@ const getUserFull = (userId) => fetchJson(`${baseUrl}/user/${userId}/full`);
 const updateUser = (userId, userData) => fetchJson(`${baseUrl}/user/${userId}`, { method: 'PUT', body: userData });
 const getUsers = (query) => fetchJson(`${baseUrl}/user${query || ''}`);
 const hydrateUser = () => fetchJson(`${baseUrl}/user/refresh`);
+const getRecentActivity = () => fetchJson(`${baseUrl}/activity`);
+const getLastAdoption = () => fetchJson(`${baseUrl}/activity/lastadoption`);
 
 export default {
   login,
@@ -45,6 +48,7 @@ export default {
   getPet,
   getPetByName,
   getRandomPet,
+  getRecentPet,
   editPet,
   getPets,
   search,
@@ -58,4 +62,6 @@ export default {
   updateUser,
   getUsers,
   hydrateUser,
+  getRecentActivity,
+  getLastAdoption,
 };
