@@ -61,9 +61,7 @@ export default function Home() {
     <div>
       <Head>
         <title>SPCA - Home Page</title>
-        <link rel="icon" href="/favicon.ico" />
       </Head>
-
       <main>
         <Hero img={heroPet.img} title={heroPet.title} text={heroPet.text} action={heroPet.action} to={heroPet.to} />
       </main>

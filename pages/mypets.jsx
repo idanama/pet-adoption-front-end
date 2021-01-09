@@ -1,8 +1,8 @@
 import { useContext, useState, useEffect } from 'react';
+import Head from 'next/head';
+
 import api from '../utils/api';
 
-import Button from '../components/base/Button';
-import Input from '../components/base/Input';
 import userContext from '../context/userContext';
 import PetCard from '../components/PetCard';
 
@@ -28,22 +28,23 @@ export default function MyPets() {
   }, [user]);
 
   return (
-    <div className="container-max">
-      <h1 className="text-3xl mb-7">My Pets</h1>
-      <h2 className="text-2xl mb-3">Owned Pets</h2>
-      <section className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-        {myPets.ownedPets &&
-          myPets.ownedPets.map((pet) => (
-            <PetCard key={`owned-${pet._id}`} pet={pet} />
-          ))}
-      </section>
-      <h2 className="text-2xl mt-7 mb-3">Saved Pets</h2>
-      <section className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-        {myPets.savedPets &&
-          myPets.savedPets.map((pet) => (
-            <PetCard key={`saved-${pet._id}`} pet={pet} />
-          ))}
-      </section>
-    </div>
+    <>
+      <Head>
+        <title>SPCA - My Pets</title>
+      </Head>
+      <div className="container-max">
+        <h1 className="text-3xl mb-7">My Pets</h1>
+        <h2 className="text-2xl mb-3">Owned Pets</h2>
+        <section className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+          {myPets.ownedPets &&
+            myPets.ownedPets.map((pet) => <PetCard key={`owned-${pet._id}`} pet={pet} />)}
+        </section>
+        <h2 className="text-2xl mt-7 mb-3">Saved Pets</h2>
+        <section className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+          {myPets.savedPets &&
+            myPets.savedPets.map((pet) => <PetCard key={`saved-${pet._id}`} pet={pet} />)}
+        </section>
+      </div>
+    </>
   );
 }
