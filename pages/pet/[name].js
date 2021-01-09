@@ -85,6 +85,7 @@ export default function PetPage() {
     <div className="container-max">
       <div className="relative">
         <img src={pet.pictures && pet.pictures[0]} alt={pet.name} className="object-cover h-full w-full object-center max-h-60v rounded-2xl" />
+        {loggedIn && (
         <div className="absolute bottom-4 right-6">
           <Button
             transparent
@@ -92,13 +93,14 @@ export default function PetPage() {
             onClick={() => toggleLikePet()}
           >
             {!saved && (
-              <RiHeartLine className="text-white" />
+            <RiHeartLine className="text-white" />
             )}
             {saved && (
-              <RiHeartFill className="text-primary" />
+            <RiHeartFill className="text-primary" />
             )}
           </Button>
         </div>
+        )}
       </div>
       <div className="flex">
         <div className="w-2/3 m-4">
@@ -159,6 +161,23 @@ export default function PetPage() {
                       </div>
                     </Modal>
                   )}
+                </>
+              )}
+              {!loading && pet.owner !== user._id && pet.status === 'Fostered' && (
+                <>
+                  <div className="text-xl">{`${pet.name} is fostered, but that's only temporary, want to adopt ${pet.gender === 'Male' ? 'him' : 'her'}?`}</div>
+                  <Button primary xl onClick={() => changePetOwnership('adopt')}>
+                    Adopt
+                    {' '}
+                    { pet.name}
+                  </Button>
+                  <Button primary={pet.status === 'Adopted'} link="\donate">Donate to spca</Button>
+                </>
+              )}
+              {!loading && pet.status === 'Adopted' && (
+                <>
+                  <div>{`${pet.name} is already adopted.`}</div>
+                  <Button primary link={`\\search?animal=${pet.species?.toLowerCase()}`}>{`Find another ${pet.species?.toLowerCase()}`}</Button>
                 </>
               )}
             </div>
